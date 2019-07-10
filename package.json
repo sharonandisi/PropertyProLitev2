@@ -4,7 +4,10 @@
   "description": "propertyprolite",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "babel server -d build",
+    "start": "npm run build && nodemon build/server.js"
+
   },
   "repository": {
     "type": "git",
@@ -29,4 +32,6 @@
     "chai": "^4.2.0",
     "mocha": "^6.1.4"
   }
+
+
 }
