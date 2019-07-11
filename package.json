@@ -4,9 +4,10 @@
   "description": "propertyprolite",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha ./server/tests/*.js --require @babel/register",
     "build": "babel server -d build",
-    "start": "npm run build && nodemon build/server.js"
+    "start": "npm run build && node build/server.js",
+    "start-dev": "nodemon --exec babel-node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -25,10 +26,11 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-preset-env": "^1.7.0",
-    "babel-watch": "^7.0.0",
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/register": "^7.4.4",
     "chai": "^4.2.0",
     "mocha": "^6.1.4"
   }

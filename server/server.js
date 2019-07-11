@@ -1,5 +1,5 @@
 import express from "express";
-import routes from "../server/routes";
+import routes from "./routes/userRoutes";
 
 
 
@@ -8,7 +8,7 @@ const app = express()
 
 app.use(express.json());
 
-routes(app);
+app.use('/api/v1',routes);
 
 app.get('/', (req, res) => {
     return res.status(200).send({'message':'YaY! first endpoint works'})

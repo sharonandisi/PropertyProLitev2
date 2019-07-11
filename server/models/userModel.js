@@ -43,11 +43,11 @@ class User {
      }
 
      /**
-      * @returns {object} returns all reflections
+      * @returns {object} returns all users
       */
 
       findAll() {
-          return this.reflections;
+          return this.users;
       }
 
       /**

@@ -1,4 +1,4 @@
-import userModel from '../models/userModel';
+import UserModel from '../models/userModel';
 
 
 const User = {
@@ -20,7 +20,7 @@ const User = {
      /**
       * @param {object} req
       * @param {object} res
-      * @returns {object} reflection array
+      * @returns {object} user array
       */
 
       getAll(req, res) {
