@@ -10,11 +10,11 @@ const User = {
      */
 
      create(req, res) {
-         if (!req.body.email && !req.body.firstname && !req.body.lastname && !req.body.password && !req.body.phoneNumber && !req.body.address && !req.body.is_Agent) {
-             return res.status(400).send({"message":"All fields are required"})
+        if (!req.body.email && !req.body.firstname && !req.body.lastname && !req.body.password && !req.body.phoneNumber && !req.body.address && !req.body.is_Agent) {
+            return res.status(400).send({"message":"All fields are required"})
          }
-         const user = UserModel.create(req.body);
-         return res.status(201).send(user);
+        const user = UserModel.create(req.body);
+        return res.status(201).send(user);
      },
 
      /**
@@ -22,10 +22,14 @@ const User = {
       * @param {object} res
       * @returns {object} user array
       */
-
-      getAll(req, res) {
-          const user = UserModel.findAll();
-          return res.status(201).send(users);
+      
+      findByEmail(req, res) {
+          const email = UserModel.findByEmail(req.body.email);
+          if (req.body.email === user.email){
+            return res.status(409).send({ "message":"Email already in use"})
+        }
+        const user = UserModel.create(req.body.email);
+        return res.status(201).send(user);
       },
 
       /**

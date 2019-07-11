@@ -1,8 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server.js';
+import UserModel from '../models/userModel';
+import userModel from '../models/userModel';
 
 
+const users = userModel.users
 
 const { expect } = chai;
 chai.should();
@@ -10,7 +13,10 @@ chai.use(chaiHttp);
 
 describe('/Auth', () => {
     describe('/POST signup', () => {
-        it("should successfully sign up user", (done) => {
+        // after(()=>{
+        //     users.length = 0
+        // })
+        it ("should successfully sign up user", (done) => {
             chai.request(app)
                 .post('/api/v1/auth/signup')
                 .send({
@@ -34,18 +40,17 @@ describe('/Auth', () => {
         chai.request(app)
             .post('/api/v1/auth/signup')
             .send({
-                email: " ",
-                firstname: "sharon",
-                lastname: "andy",
-                password: "shay123",
-                phoneNumber: "0712345678",
-                address: "Kenya",
-                is_Agent: false,
-
+                "email": " ",
+                "firstname": "sharon",
+                "lastname": "andisi",
+                "password": "shay123",
+                "phoneNumber": "0712345678",
+                "address": "iowra",
+                "is_Agent": "false"
             })
             .end((err, res) => {
                 res.should.have.status(400);
-                expect(res.body.data).equals("Your email is required")
+                expect(res.body.error).equals("Email required field and must be valid")
                 if (err) return done();
                 done(); 
             });
@@ -66,7 +71,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.data).equals("Your firstname is required with a min of 3 chars and no special chars or numbers")
+                    expect(res.body.error).equals("Firstname is required with a min of 3 chars and no special chars or numbers")
                     if (err) return done();
                     done();
                 });
@@ -87,7 +92,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.data).equals("Your lastname is required with a min of 3 chars and no special chars or numbers")
+                    expect(res.body.error).equals("Lastname required  with a min of 3 chars and no special chars or numbers")
                     if (err) return done();
                     done();
                 });
@@ -109,7 +114,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.data).equals("Your password is required with a min of 6 chars and with no special chars")
+                    expect(res.body.error).equals("Password required with a min of 5 chars and no special chars")
                     if (err) return done();
                     done();
                 });
@@ -131,7 +136,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.data).equals("Your phonenumber is required with a min of 10 numbers and no special chars or letters")
+                    expect(res.body.error).equals("phoneNumber required with a min of 10 numbers with no special chars or letters")
                     if (err) return done();
                     done();
                 });
@@ -153,7 +158,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.data).equals("Your address is required with a min of 4 chars and no special chars or numbers")
+                    expect(res.body.error).equals("Address required with a min of 4 chars and no special chars")
                     if (err) return done();
                     done();
                 });
@@ -175,7 +180,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.data).equals("Your is_Agent field is required as either True or False ")
+                    expect(res.body.error).equals("is_Agent required .Can either be true or false")
                     if (err) return done();
                     done();
                 });
@@ -183,7 +188,17 @@ describe('/Auth', () => {
 
 
         it("should check if the email has been used to register before", (done) => {
+            users.push({
+                email: "shay@gmail.com",
+                firstname: "sharon",
+                lastname: "andy",
+                password: "shay123",
+                phoneNumber: "0712345678",
+                address: "Kenya",
+                is_Agent: false,
+            })
             chai.request(app)
+            
                 .post('/api/v1/auth/signup')
                 .send({
                     email: "shay@gmail.com",
@@ -197,163 +212,14 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(409);
-                    expect(res.body.data).equals("Your email is already in use")
+                    expect(res.body.error).equals("Email already in use")
                     if (err) return done();
                     done();
                 });
         });
 
 
-        it("should check if the email is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your email is a required field and must be a valid email")
-                    if (err) return done();
-                    done();
-                });
-        });
-
-
-        it("should check if the firstname is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your firstname is a required field with a min of 3 chars with no special chars or numbers")
-                    if (err) return done();
-                    done();
-                });
-        });
-
-
-        it("should check if the lastname is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your lastname is a required field with a min of 3 chars with no special chars or numbers")
-                    if (err) return done();
-                    done();
-                });
-        });
-
-
-        it("should check if the password is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your password is a required field with a min of 6 chars and no special chars")
-                    if (err) return done();
-                    done();
-                });
-        });
-
-
-        it("should check if the phoneNumber is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your firstname is a required field with a min of 10 numbers with no special chars or letters")
-                    if (err) return done();
-                    done();
-                });
-        });
-
-        it("should check if the address is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your address is a required field with a min of 4 chars with no special chars or numbers")
-                    if (err) return done();
-                    done();
-                });
-        });
-
-
-        it("should check if the is_Agent is valid", (done) => {
-            chai.request(app)
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-
-                })
-                .end((err, res) => {
-                    res.should.have.status(400);
-                    expect(res.body.data).equals("Your is_Agent field is a required field and can either be true or false")
-                    if (err) return done();
-                    done();
-                });
-        });
+       
+        
     });
 });

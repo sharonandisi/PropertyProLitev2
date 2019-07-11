@@ -1,4 +1,6 @@
 import Joi from '@hapi/joi';
+import response from '../helpers/responses';
+
 
 class Validations {
     static async validateSignup(req, res, next) {
@@ -47,14 +49,16 @@ class Validations {
             const { error } = Joi.validate(req.body, schema);
 
             if (error) {
-                return response.validationError(400, error.details[0].message, res);
+                return response.validationsError(400, error.details[0].message, res);
             }
             next();
-        } catch (error) {
-            return response.catchError(500, error.toString(), res);
+        }   catch (error) {
+            return response.catchErrors(500, error.toString(), res);
+ 
         }
     }
 
 }
+
 
 export default Validations;

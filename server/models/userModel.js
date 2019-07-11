@@ -38,9 +38,9 @@ class User {
      * @returns {object} user object
      */
 
-     findOne(id) {
-         return this.users.find(user => user.id === id);   
-     }
+    findByEmail(email) {
+        return this.users.find(user => user.email === email);
+    }
 
      /**
       * @returns {object} returns all users
