@@ -25,7 +25,7 @@ const User = {
 
       getAll(req, res) {
           const user = UserModel.findAll();
-          return res.status(200).send(users);
+          return res.status(201).send(users);
       },
 
       /**
