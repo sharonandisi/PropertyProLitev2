@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../server.js";
-import { Properties } from "../models/propertyModel.js";
+import Property  from "../models/propertyModel";
 
 const { expect } = chai;
 chai.should();
@@ -39,6 +39,10 @@ describe('/GET specific property type', () => {
 
 
     it('should successfully return an adverts of that type exists', (done) => {
+        const Propertymodel = new Property();
+        Properties = Propertymodel.Properties;
+        console.log(Properties);
+        
         Properties.push({
             price: 70000000,
             state: "Karen",

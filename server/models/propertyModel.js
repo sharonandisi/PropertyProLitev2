@@ -3,21 +3,21 @@ import moment from "moment";
 
 class Property {
     constructor() {
-        this.Properties = [];
+        this.properties = [];
     }
 
     //  Fetch all properties
     findAll() {
-        if (this.Properties.length === 0) return false;        
-        return this.Properties;
+        if (this.properties.length === 0) return false;        
+        return this.properties;
     }
 
     findAllMyAds(id) {
-        return this.Properties.filter(property => property.owner === id);
+        return this.properties.filter(property => property.owner === id);
     }
 
     findAdsOfSpecificType(type) {
-        const property = this.Properties.filter(property => property.type === type);
+        const property = this.properties.filter(property => property.type === type);
         if (!property) {
             return false;
         }
@@ -48,7 +48,7 @@ class Property {
 
     // Get a property by id
     findOne(id) {
-        const property = this.Properties.find(property => property.id === id);
+        const property = this.properties.find(property => property.id === id);
         
         if (!property) {
             return false;         
@@ -60,45 +60,45 @@ class Property {
     // Delete a property
     delete(id) {
         // const property = this.findOne(id);
-        const newProperties = this.Properties.filter(property => property.id !== id);
-        this.Properties = [...newProperties];
+        const newProperties = this.properties.filter(property => property.id !== id);
+        this.properties = [...newProperties];
         return true;
     }
 
     // Update a property
     update(id, data) {
         const property = this.findOne(id);
-        const index = this.Properties.indexOf(property);
+        const index = this.properties.indexOf(property);
 
         if (data.price) {
-            this.Properties[index].price = data.price;
+            this.properties[index].price = data.price;
         }
 
         if (data.imageUrl) {
-            this.Properties[index].imageUrl = data.imageUrl;
+            this.properties[index].imageUrl = data.imageUrl;
         }
 
         if (data.title) {
-            this.Properties[index].title = data.title;
+            this.properties[index].title = data.title;
         }
 
-        return this.Properties[index];
+        return this.properties[index];
     }
 
     markPropertySold(id) {
         const property = this.findOne(id);
         if (property) {
         const index = this.Properties.indexOf(property);
-        this.Properties[index].status = "sold";
+        this.properties[index].status = "sold";
 
-        return this.Properties[index];
+        return this.properties[index];
         }
         return false;
     }
 
     remove() {
-        this.Properties = [];
+        this.properties = [];
     }
 }
 
-export default new Property();
+export default Property;
