@@ -33,7 +33,9 @@ class Validation {
                     .min(3)
                     .max(10)
                     .required()
-                    .error(() => "type required with a min of 3 char with no special chars or letters")
+                    .error(() => "type required with a min of 3 char with no special chars or letters"),
+                    
+                image_url:Joi.string()
             };
             const { error } = Joi.validate(req.body, schema);
 

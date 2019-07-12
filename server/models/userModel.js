@@ -27,7 +27,7 @@ class User {
             phoneNumber: data.phoneNumber ||
             '',
             address: data.address || '',
-            is_Agent: data.is_Agent || '',
+            is_Agent: false,
         };
         this.users.push(newUser);
         return newUser

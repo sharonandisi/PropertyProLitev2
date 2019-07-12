@@ -2,7 +2,7 @@ language: node_js;
 node_js: 
   - "stable"
 install:
-  - npm ci
+  - npm i
 cache: 
   directories:
     - "$HOME/.npm"

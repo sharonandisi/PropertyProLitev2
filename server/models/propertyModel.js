@@ -8,6 +8,7 @@ class Property {
 
     //  Fetch all properties
     findAll() {
+        if (this.Properties.length === 0) return false;        
         return this.Properties;
     }
 
