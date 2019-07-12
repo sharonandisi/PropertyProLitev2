@@ -1,12 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server.js';
-import UserModel from '../models/userModel';
 import userModel from '../models/userModel';
 
 
-const users = userModel.users
-
+const users = userModel.users;
 const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
@@ -186,7 +184,6 @@ describe('/Auth', () => {
                 });
         });
 
-
         it("should check if the email has been used to register before", (done) => {
             users.push({
                 email: "shay@gmail.com",
@@ -196,9 +193,9 @@ describe('/Auth', () => {
                 phoneNumber: "0712345678",
                 address: "Kenya",
                 is_Agent: false,
-            })
+            });
             chai.request(app)
-            
+
                 .post('/api/v1/auth/signup')
                 .send({
                     email: "shay@gmail.com",
@@ -208,15 +205,20 @@ describe('/Auth', () => {
                     phoneNumber: "0712345678",
                     address: "Kenya",
                     is_Agent: false,
-
                 })
                 .end((err, res) => {
                     res.should.have.status(409);
-                    expect(res.body.error).equals("Email already in use")
+                    expect(res.body.error).equals("Email exists");
                     if (err) return done();
                     done();
                 });
+
+    });
+
+    describe('/POST signin', () => {    
+        
         });
+    
 
 
        

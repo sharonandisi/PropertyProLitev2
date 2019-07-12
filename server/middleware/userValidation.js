@@ -58,6 +58,30 @@ class Validations {
         }
     }
 
+    static async validateLogin(req, res, next) {
+        try {
+            const schema = {
+                email: Joi.string()
+                    .email({ minDomainSegments: 2 }).required()
+                    .error(() => "Email is a required field and must be valid"),
+                password: Joi.string()
+                    .min(5)
+                    .max(15)
+                    .alphanum()
+                    .required()
+                    .error(() => "Password is a required field with a min of 5 chars and no special chars"),
+            };
+            const { error } = Joi.validate(req.body, schema);
+
+            if (error) {
+                return response.validationsError(400, error.details[0].message, res);
+            }
+            next();
+        } catch (e) {
+            return response.catchErrors(500, e.toString(), res);
+        }
+    }
+
 }
 
 
