@@ -21,8 +21,9 @@ class Property {
 
     // Create and save a property
     create({
-        status = "available", price, state, city, address, type, imageUrl, description, title, owner,
+        status, price, state, city, address, type, image_url, owner=1,
     }) {
+        console.log(status);
         const newProperty = {
             id: uuid.v4(),
             status,
@@ -31,11 +32,8 @@ class Property {
             city,
             address,
             type,
-            description,
-            title,
-            imageUrl,
-            owner,
-            createdOn: moment(),
+            image_url,
+            owner
         };
 
         this.Properties.push(newProperty);
@@ -45,7 +43,7 @@ class Property {
 
     // Get a property by id
     findOne(id) {
-        return this.Properties.find(user => user.id === id);
+        return this.Properties.find(id => Property.id === id);
     }
 
     // Delete a property

@@ -1,6 +1,6 @@
 import express from "express";
 import "@babel/polyfill";
-import routes from "./routes/userRoutes";
+import router from "./routes";
 
 
 
@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.json());
 // eslint-disable-next-line quotes
-app.use('/api/v1',routes);
+app.use('/', router);
 
 // eslint-disable-next-line quotes
 app.get('/', (req, res) => {

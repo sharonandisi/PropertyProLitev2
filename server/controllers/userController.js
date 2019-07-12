@@ -1,4 +1,4 @@
-import UserModel from '../models/userModel';
+import UserModel from "../models/userModel";
 
 
 const User = {
@@ -11,10 +11,13 @@ const User = {
 
      create(req, res) {
         if (!req.body.email && !req.body.firstname && !req.body.lastname && !req.body.password && !req.body.phoneNumber && !req.body.address && !req.body.is_Agent) {
-            return res.status(400).send({"message":"All fields are required"})
+            return res.status(400).send({"message":"All fields are required"});
          }
         const user = UserModel.create(req.body);
-        return res.status(201).send(user);
+        return res.status(201).json({
+            status: 201, 
+            data: user
+            });
      },
 
      /**
@@ -23,14 +26,17 @@ const User = {
       * @returns {object} user array
       */
       
-      findByEmail(req, res) {
-          const email = UserModel.findByEmail(req.body.email);
-          if (req.body.email === user.email){
-            return res.status(409).send({ "message":"Email already in use"})
-        }
-        const user = UserModel.create(req.body.email);
-        return res.status(201).send(user);
-      },
+      userlogin(req, res) {
+          const user = UserModel.findByEmail(req.body.email);
+          if(!user){
+              return res.status(404).json({message:"invalid login credentials"});
+          }
+          if(req.body.password !== user.password){
+              return res.status(401).json({ message: "invalid login credentials" });
+          }
+          return res.status(201).json({message: "successfully logged in"});
+        },
+        
 
       /**
        * 
@@ -41,11 +47,11 @@ const User = {
       delete(req,res) {
           const user = UserModel.findOne(req.params.id);
           if (!user) {
-              return res.status(404).send({"message":"user not found"})
+              return res.status(404).json({message:"user not found"})
           }
           const ref = UserModel.delete(req,params.id);
-          return res.status(204).send(ref);
+          return res.status(204).json(ref);
       }
-}
+};
 
 export default User;

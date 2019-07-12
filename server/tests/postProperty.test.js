@@ -15,8 +15,7 @@ describe('/POST property', () => {
     it('should successfully post a property advert', (done) => {
         chai.request(app)
             .post('/api/v1/property')
-            .attach('image_url', imageTest)
-            .field({
+            .send({
                 status: 'Available',
                 price: 70000000,
                 state: 'Karen',
@@ -62,7 +61,7 @@ describe('/POST property', () => {
                 price: 70000000,
                 state: "",
                 city: "Nairobi",
-                address:"Kenya",
+                address: "Kenya",
                 type: "villa",
                 image_url: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg",
             })

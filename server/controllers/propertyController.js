@@ -1,34 +1,28 @@
-import models from "../models";
+import models from "../models/propertyModel";
 
 const createPropertyAd = (req, res) => {
-    const { imageUrl } = req;
-    const owner = req.decoded.payload;
+    const { image_url } = req;
 
     const {
-        title, address, state, city, type, price, description,
+        address, state, city, type, price,
     } = req.body;
-
-    title.trim();
     address.trim();
     state.trim();
     city.trim();
     type.trim();
-    price.trim();
-    description.trim();
 
     const data = {
-        imageUrl,
-        title,
+        image_url,
         address,
         state,
         city,
         type,
         price,
-        description,
-        owner,
+        status: "available",
     };
 
-    const result = models.Property.create(data);
+    console.log(models.create(data));
+    const result = models.create(data);
 
     res.status(201).json({
         status: "success",
@@ -37,7 +31,7 @@ const createPropertyAd = (req, res) => {
 };
 
 const fetchAllProperties = (req, res) => {
-    const properties = models.Property.findAll();
+    const properties = models.findAll();
     res.status(200).json({
         status: "success",
         data: properties,
@@ -47,7 +41,7 @@ const fetchAllProperties = (req, res) => {
 const findAdsOfSpecificType = (req, res) => {
     let { type } = req.query;
     type = decodeURI(type);
-    const properties = models.Property.findAdsOfSpecificType(type);
+    const properties = models.findAdsOfSpecificType(type);
     res.status(200).json({
         status: "success",
         data: properties,
@@ -56,7 +50,7 @@ const findAdsOfSpecificType = (req, res) => {
 
 const fetchSpecificProperty = (req, res) => {
     const { id } = req.params;
-    const result = models.Property.findOne(id);
+    const result = models.findOne(id);
 
     if (result) {
         return res.status(200).json({
@@ -119,9 +113,9 @@ const editPropertyAd = (req, res) => {
 
 const editPropertyAdImage = (req, res) => {
     const { id } = req.params;
-    const { imageUrl } = req;
+    const { image_url } = req;
     const data = {
-        imageUrl,
+        image_url,
     };
     const result = models.Property.update(id, data);
     res.status(201).json({
