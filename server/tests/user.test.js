@@ -1,7 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server.js';
-import UserModel from '../models/userModel';
 import userModel from '../models/userModel';
 
 
