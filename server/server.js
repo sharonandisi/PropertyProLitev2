@@ -1,5 +1,5 @@
 import express from "express";
-import '@babel/polyfill';
+import "@babel/polyfill";
 import routes from "./routes/userRoutes";
 
 
@@ -8,6 +8,7 @@ const app = express();
 
 
 app.use(express.json());
+// eslint-disable-next-line quotes
 app.use('/api/v1',routes);
 
 // eslint-disable-next-line quotes
