@@ -44,7 +44,7 @@ const fetchAllProperties = (req, res) => {
     if (!properties) {
         return res.status(404).json({
             status: "error",
-            msg: "No adverts found",
+            error: "No adverts found",
 
         });
     }
@@ -52,12 +52,23 @@ const fetchAllProperties = (req, res) => {
 
 const findAdsOfSpecificType = (req, res) => {
     let { type } = req.query;
-    type = decodeURI(type);
+    // type = decodeURI(type);
     const properties = models.findAdsOfSpecificType(type);
-    res.status(200).json({
-        status: "success",
-        data: properties,
-    });
+console.log(properties.length);
+
+    if (properties.length>0) {
+        return res.status(200).json({
+            status: "success",
+            data: properties,
+        });    
+    }
+    else  {
+        return res.status(404).json({
+            status: "error",
+            error: "No property adverts of that type found"
+        });
+    }
+    
 };
 
 const fetchSpecificProperty = (req, res) => {
@@ -72,9 +83,9 @@ const fetchSpecificProperty = (req, res) => {
     }
 
     if (!result) {
-        return res.status(400).json({
+        return res.status(404).json({
             status: "error",
-            msg: "Property ad is not found!",
+            error: "property not found",
         });
     }
 };
@@ -138,10 +149,17 @@ const editPropertyAdImage = (req, res) => {
 
 const markPropertySold = (req, res) => {
     const { id } = req.params;
-    const result = models.Property.markPropertySold(id);
-    res.status(200).json({
+    const result = models.markPropertySold(id);
+    if (result) {
+    return res.status(200).json({
         status: "success",
         data: result,
+    });
+    }
+    if (!result) 
+    return res.status(200).json({
+        status: 404,
+        msg: "property not found",
     });
 };
 

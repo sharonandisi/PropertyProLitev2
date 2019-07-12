@@ -17,7 +17,11 @@ class Property {
     }
 
     findAdsOfSpecificType(type) {
-        return this.Properties.filter(property => property.type === type);
+        const property = this.Properties.filter(property => property.type === type);
+        if (!property) {
+            return false;
+        }
+        return property;
     }
 
     // Create and save a property
@@ -44,8 +48,14 @@ class Property {
 
     // Get a property by id
     findOne(id) {
-        return this.Properties.find(id => Property.id === id);
+        const property = this.Properties.find(property => property.id === id);
+        
+        if (!property) {
+            return false;         
+        }
+        return property;
     }
+    
 
     // Delete a property
     delete(id) {
@@ -77,10 +87,13 @@ class Property {
 
     markPropertySold(id) {
         const property = this.findOne(id);
+        if (property) {
         const index = this.Properties.indexOf(property);
         this.Properties[index].status = "sold";
 
         return this.Properties[index];
+        }
+        return false;
     }
 
     remove() {
