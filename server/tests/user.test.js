@@ -4,8 +4,7 @@ import app from '../server.js';
 import userModel from '../models/userModel';
 
 
-const users = userModel.users
-
+const users = userModel.users;
 const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
