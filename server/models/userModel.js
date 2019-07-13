@@ -30,7 +30,7 @@ class User {
             is_Agent: false,
         };
         this.users.push(newUser);
-        return newUser
+        return newUser;
     }
 
     /**

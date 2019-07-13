@@ -11,7 +11,9 @@ const User = {
 
      create(req, res) {
         if (!req.body.email && !req.body.firstname && !req.body.lastname && !req.body.password && !req.body.phoneNumber && !req.body.address && !req.body.is_Agent) {
-            return res.status(400).send({"message":"All fields are required"});
+            return res.status(400).json({
+                status:400,
+                error:"All fields are required"});
          }
         const user = UserModel.create(req.body);
         return res.status(201).json({

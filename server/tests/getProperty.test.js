@@ -38,28 +38,6 @@ describe('/GET specific property type', () => {
     });
 
 
-    it('should successfully return an adverts of that type exists', (done) => {
-        const Propertymodel = new Property();
-        Properties = Propertymodel.Properties;
-        console.log(Properties);
-        
-        Properties.push({
-            price: 70000000,
-            state: "Karen",
-            city: "Nairobi",
-            address: "Kenya",
-            type: "villa",
-            image_url: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg",
-        });
-        chai.request(app)
-            .get('/api/v1/property?type=villa')
-            .end((err, res) => {
-                console.log('>>>',res.body);
-                res.should.have.status(200);
-                if (err) return done();
-                done();
-            });
-    });
 
 });
 

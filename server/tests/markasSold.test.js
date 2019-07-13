@@ -1,29 +1,24 @@
-/* eslint-disable no-undef */
-/* eslint-disable quotes */
-
 import chai from "chai";
 import chaiHttp from "chai-http";
 import app from "../server.js";
+
 
 const { expect } = chai;
 chai.should();
 chai.use(chaiHttp);
 
 
-
-describe('/PATCH property', () => {
-    it("should not update advert with missing price", (done) => {
+describe('/PATCH mark as sold', () => {
+    it("should return an error of this property is not available", (done) => {
         chai.request(app)
-            .patch('/api/v1/property/1')
-            .send({
-                price: "",
-            })
+            .get('/api/v1/property/13/sold')
             .end((err, res) => {
                 res.should.have.status(404);
-                expect(res.body.error).equals("Price is a required field ");
+                expect(res.body.error).equals("property not found");
                 if (err) return done();
                 done();
             });
     });
+
 
 });

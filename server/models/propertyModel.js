@@ -26,7 +26,7 @@ class Property {
 
     // Create and save a property
     create({
-        status, price, state, city, address, type, image_url, owner=1, owneremail,
+        status, price, state, city, address, type, image_url, owner=1, 
     }) {
         console.log(status);
         const newProperty = {
@@ -39,7 +39,7 @@ class Property {
             type,
             image_url,
             owner,
-            owneremail
+            
         };
 
         this.properties.push(newProperty);
@@ -49,47 +49,32 @@ class Property {
 
     // Get a property by id
     findOne(id) {
-        const property = this.properties.find(property => property.id === id);
-        
-        if (!property) {
-            return false;         
-        }
-        return property;
+        return this.properties.find(property => property.id === id);
     }
     
 
     // Delete a property
     delete(id) {
-        const owneremail = this.properties.filter(property => property.owneremail == owneremail);
-        const newProperties = this.properties.filter(property => property.id === id);
-        if (newProperties && owneremail){
-        return this.properties.pop(newProperties);
-        }
-        return false;
+        const property = this.findOne(id);
+        const index = this.users.indexOf(property);
+        this.users.splice(index, 1);
+        return {};
     }
 
     // Update a property
     update(id, data) {
         const property = this.findOne(id);
         const index = this.properties.indexOf(property);
-
-        if (data.price) {
-            this.properties[index].price = data.price;
-            console.log(this.properties[index]);
+        this.properties[index].id = data.id || property.id;
         return this.properties[index];
-        }
-        return false;
     }
-
+    // mark a property as solg
     markPropertySold(id) {
         const property = this.findOne(id);
-        if (property) {
         const index = this.properties.indexOf(property);
         this.properties[index].status = "sold";
 
         return this.properties[index];
-        }
-        return false;
     }
 
     remove() {

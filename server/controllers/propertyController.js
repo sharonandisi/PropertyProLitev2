@@ -4,7 +4,7 @@ const createPropertyAd = (req, res) => {
     const { image_url } = req;
 
     const {
-        address, state, city, type, price, owneremail
+        address, state, city, type, price
     } = req.body;
     address.trim();
     state.trim();
@@ -18,8 +18,8 @@ const createPropertyAd = (req, res) => {
         city,
         type,
         price,
-        owneremail,
         status: "available",
+        owner: "1"
 
     };
 
@@ -94,7 +94,7 @@ const fetchSpecificProperty = (req, res) => {
 
 const deletePropertyAd = (req, res) => {
     const { id } = req.params;
-    const result = models.Property.findOne(id);
+    const result = models.Property.delete(id);
     console.log(id);
     
 
@@ -133,7 +133,7 @@ const fetchMyads = (req, res) => {
 const editPropertyAd = (req, res) => {
     const { id } = req.params;
     const { price } = req.body;
-    const data = price.req.body;
+    const data = price;
     const result = models.Property.update(id, data);
     res.status(201).json({
         status: "success",
@@ -166,7 +166,7 @@ const markPropertySold = (req, res) => {
     if (!result) 
     return res.status(404).json({
         status: 404,
-        msg: "property not found",
+        error: "property not found",
     });
 };
 

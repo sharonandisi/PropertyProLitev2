@@ -34,9 +34,6 @@ class Validation {
                     .max(10)
                     .required()
                     .error(() => "type required with a min of 3 char with no special chars or letters"),
-                owneremail: Joi.string()
-                    .email({ minDomainSegments: 2 }).required()
-                    .error(() => "Email required field and must be valid"),
                     
                 image_url:Joi.string()
             };
