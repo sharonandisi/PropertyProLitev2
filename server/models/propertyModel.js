@@ -63,13 +63,13 @@ class Property {
 
     // Update a property
     update(id, data) {
-
-        const property = this.findOne(id);
-        let index = this.properties.indexOf(property);
-        if (this.properties[index].id === data.id) {
-            this.properties[index].price = data.price;
-            console.log(this.properties[index]);
-            return this.properties[index];
+        let property;
+        if(!property => property.id === data.id){
+            return false;
+        }
+        property.price = data.price;
+        console.log(property);
+        return property;
         }
          
     }

@@ -100,10 +100,10 @@ const deletePropertyAd = (req, res) => {
     if(result){
     try {
         
-            models.delete(id)
-            res.send('it worked')
+            models.delete(id),
+            res.send("it worked");
     } catch (error) {
-        res.send("failed")
+        res.send("failed"),
     }
 
     }
@@ -139,7 +139,7 @@ const fetchMyads = (req, res) => {
     if (!properties.length) {
         return res.status(400).json({
             status: "error",
-            msg: "No properties found!",
+            error: "No properties found!",
         });
     }
 };
