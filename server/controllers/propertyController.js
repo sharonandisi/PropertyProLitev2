@@ -1,3 +1,4 @@
+
 import PropertyModel from "../models/propertyModel";
 
 
@@ -68,16 +69,6 @@ deletePropertyAd(req, res) {
             error: "Property not found",
         });
     }
-    const ad = PropertyModel.delete(req.params.id);
-    return res.status(204).json({
-        status: 204,
-        data: ad,
-    });
-}
-
-fetchMyads (req, res) {
-    const id = req.params;
-    const properties = PropertyModel.Property.findAllMyAds(id);
 
     if (properties.length) {
         return res.status(200).json({
@@ -130,3 +121,4 @@ markPropertySold(req, res) {
 }
 
 export default Property;
+

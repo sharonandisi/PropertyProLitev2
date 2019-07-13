@@ -49,7 +49,7 @@ class Property {
             owner: data.owner || 1,
         };
 
-        this.Properties.push(newProperty);
+        this.properties.push(newProperty);
 
         return newProperty;
     }
@@ -62,12 +62,7 @@ class Property {
 
     
     findOne(id) {
-        const property = this.properties.find(property => property.id === id);
-        
-        if (!property) {
-            return false;         
-        }
-        return property;
+        return this.properties.find(property => property.id === id);
     }
 
     /**
@@ -89,8 +84,6 @@ class Property {
 
 
     update(id, data) {
-        const property = this.findOne(id);
-        const index = this.properties.indexOf(property);
 
         this.properties[index].price = data["price"];
 
@@ -102,16 +95,12 @@ class Property {
      * @param {uuid} id 
      * @param {object} data
      */
-
     markPropertySold(id) {
         const property = this.findOne(id);
-        if (property) {
-        const index = this.Properties.indexOf(property);
+        const index = this.properties.indexOf(property);
         this.properties[index].status = "sold";
 
         return this.properties[index];
-        }
-        return false;
     }
 
     remove() {
@@ -119,4 +108,4 @@ class Property {
     }
 }
 
-export default Property;
+export default new Property;

@@ -2,6 +2,11 @@ import express from "express";
 import user from "./userRoutes";
 import property from "./propertyRoutes";
 
+
+
+
+
+
 const router = express.Router();
 
 
