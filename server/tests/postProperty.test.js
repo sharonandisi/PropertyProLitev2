@@ -20,7 +20,8 @@ describe('/POST property', () => {
                 state: 'Karen',
                 city: 'Nairobi',
                 address: 'Kenya',
-                type: 'villa'
+                type: 'villa',
+                owneremail: "andisi@gmail.com",
             })
             .end((err, res) => {
                 res.should.have.status(201);
@@ -40,7 +41,7 @@ describe('/POST property', () => {
                 city: "Nairobi",
                 address: "Kenya",
                 type: "villa",
-                image_url: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg",
+                owneremail: "andisi@gmail.com",
             })
             .end((err, res) => {
                 res.should.have.status(400);
@@ -61,7 +62,7 @@ describe('/POST property', () => {
                 city: "",
                 address: "Kenya",
                 type: "villa",
-                image_url: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg",
+                owneremail: "andisi@gmail.com",
             })
             .end((err, res) => {
                 res.should.have.status(400);
@@ -83,7 +84,7 @@ describe('/POST property', () => {
                 city: "Nairobi",
                 address: "",
                 type: "villa",
-                image_url: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg",
+                owneremail: "andisi@gmai.com",
             })
             .end((err, res) => {
                 res.should.have.status(400);
@@ -104,11 +105,32 @@ describe('/POST property', () => {
                 city: "Nairobi",
                 address: "Kenya",
                 type: "",
-                image_url: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg",
+                owneremail: "andisi@gmail.com"
             })
             .end((err, res) => {
                 res.should.have.status(400);
                 expect(res.body.error).equals("type required with a min of 3 char with no special chars or letters");
+                if (err) return done();
+                done();
+            });
+    });
+
+
+    it("should not  post a property advert with missing email", (done) => {
+        chai.request(app)
+            .post('/api/v1/property')
+            .send({
+
+                price: 70000000,
+                state: "Karen",
+                city: "Nairobi",
+                address: "Kenya",
+                type: "villa",
+                owneremail: ""
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+                expect(res.body.error).equals("Email required field and must be valid");
                 if (err) return done();
                 done();
             });

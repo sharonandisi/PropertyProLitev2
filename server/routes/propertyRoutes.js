@@ -15,7 +15,7 @@ router.get('/properties',fetchAllProperties);
 router.patch('/property/:id/sold',markPropertySold );
 router.get('/properties', fetchSpecificProperty);
 router.get('/property', findAdsOfSpecificType);
-router.patch('/property/:id', editPropertyAd);
+router.patch('/property/:id',Validation.validateUpdateProperty, editPropertyAd);
 router.delete('/property/:id', deletePropertyAd);
 
 

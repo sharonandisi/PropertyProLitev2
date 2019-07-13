@@ -4,7 +4,7 @@ const createPropertyAd = (req, res) => {
     const { image_url } = req;
 
     const {
-        address, state, city, type, price,
+        address, state, city, type, price, owneremail
     } = req.body;
     address.trim();
     state.trim();
@@ -18,7 +18,9 @@ const createPropertyAd = (req, res) => {
         city,
         type,
         price,
+        owneremail,
         status: "available",
+
     };
 
     console.log(models.create(data));

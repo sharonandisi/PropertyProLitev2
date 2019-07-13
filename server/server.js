@@ -10,8 +10,8 @@ const app = express();
 
 
 app.use(express.json());
-app.use(urlencoded({ extended: false }));
-app.use("*", cloudinaryConfig);
+
+
 // eslint-disable-next-line quotes
 app.use('/', router);
 

@@ -35,7 +35,7 @@ describe('/DELETE property', () => {
         chai.request(app)
         .delete('/api/v1/property/3')
         .end((err, res) => {
-            expect(res.body.error).equals("Invalid email");
+            expect(res.body.error).equals("Invalid credentials");
             res.should.have.status(401);
             if (err) return done();
             done();

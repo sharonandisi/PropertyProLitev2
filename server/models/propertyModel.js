@@ -26,7 +26,7 @@ class Property {
 
     // Create and save a property
     create({
-        status, price, state, city, address, type, image_url, owner=1, owneremail="shay@gmail.com"
+        status, price, state, city, address, type, image_url, owner=1, owneremail,
     }) {
         console.log(status);
         const newProperty = {

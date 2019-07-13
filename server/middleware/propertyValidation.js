@@ -34,6 +34,9 @@ class Validation {
                     .max(10)
                     .required()
                     .error(() => "type required with a min of 3 char with no special chars or letters"),
+                owneremail: Joi.string()
+                    .email({ minDomainSegments: 2 }).required()
+                    .error(() => "Email required field and must be valid"),
                     
                 image_url:Joi.string()
             };
@@ -48,9 +51,27 @@ class Validation {
 
         }
     }
-    static 
 
-   
+    static async  validateUpdateProperty(req, res, next) {
+     try{
+        const schema = {
+            price: Joi.number()
+                .required()
+                .error(() => "price required with  no special chars or letters"),
+            owneremail: Joi.string()
+                .email({ minDomainSegments: 2 }).required()
+                .error(() => "Email required field and must be valid")
+        };
+        const { error } = Joi.validate(req.body, schema);
+        
+        if (error) {
+            return response.validationsError(400, error.details[0].message, res);
+        }
+        next();
+        } catch (error) {
+            return response.catchErrors(500, error.toString(), res);
+        }
+    }
 
 }
 

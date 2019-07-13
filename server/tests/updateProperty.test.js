@@ -16,13 +16,27 @@ describe('/PATCH property', () => {
         chai.request(app)
             .patch('/api/v1/property/1')
             .send({
-                price: ""
+                price: "",
+                email:"andisi@gmail.com"
             })
             .end((err, res) => {
                 res.should.have.status(404);
                 expect(res.body.error).equals("Price is a required field ");
                 if (err) return done();
                 done();
+            });
+    });
+
+    it("should not update advert without owneremail", () => {
+        chai.request(app)
+            .patch('api/v1/property/1')
+            .send({
+                price: 70000000,
+                email:""
+            })
+            .end((err, res) => {
+                res.should.have.status(401);
+                expect(res.body.error).equals("Email required field and must be valid");
             });
     });
 });
