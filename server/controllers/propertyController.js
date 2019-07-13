@@ -92,12 +92,20 @@ const fetchSpecificProperty = (req, res) => {
 
 const deletePropertyAd = (req, res) => {
     const { id } = req.params;
-    const result = models.Property.delete(id);
+    const result = models.Property.findOne(id);
+    console.log(id);
+    
 
     if (result) {
         return res.status(200).json({
             status: "success",
-            msg: "Property ad is sucessfully deleted",
+            data: "Property ad is sucessfully deleted",
+        });
+    }
+    if (!result) {
+        return res.status(404).json({
+            status: 404,
+            error: "Property not found"
         });
     }
 };
@@ -122,30 +130,27 @@ const fetchMyads = (req, res) => {
 };
 const editPropertyAd = (req, res) => {
     const { id } = req.params;
-    const { price, title } = req.body;
-    const data = {
-        title,
-        price,
-    };
+    const { price } = req.body;
+    const data = price.req.body;
     const result = models.Property.update(id, data);
     res.status(201).json({
         status: "success",
         data: result,
     });
+    if(!result) {
+        return res.status(404).json({
+            status: 404,
+            data: result,
+        });
+    }
+    if(result) {
+        return res.status(200).json({
+            status: "success",
+            data: result,
+        });
+    }
 };
 
-const editPropertyAdImage = (req, res) => {
-    const { id } = req.params;
-    const { image_url } = req;
-    const data = {
-        image_url,
-    };
-    const result = models.Property.update(id, data);
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
-};
 
 const markPropertySold = (req, res) => {
     const { id } = req.params;
@@ -157,7 +162,7 @@ const markPropertySold = (req, res) => {
     });
     }
     if (!result) 
-    return res.status(200).json({
+    return res.status(404).json({
         status: 404,
         msg: "property not found",
     });
@@ -171,6 +176,5 @@ export {
     fetchMyads,
     findAdsOfSpecificType,
     editPropertyAd,
-    editPropertyAdImage,
     markPropertySold,
 };

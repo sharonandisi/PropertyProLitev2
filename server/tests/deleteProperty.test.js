@@ -30,4 +30,15 @@ describe('/DELETE property', () => {
                 done();
             });
     });
+
+    it("should not delete a property advert if owneremail does not exist", (done) => {
+        chai.request(app)
+        .delete('/api/v1/property/3')
+        .end((err, res) => {
+            expect(res.body.error).equals("Invalid email");
+            res.should.have.status(401);
+            if (err) return done();
+            done();
+        });
+    });
 });

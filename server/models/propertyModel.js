@@ -26,7 +26,7 @@ class Property {
 
     // Create and save a property
     create({
-        status, price, state, city, address, type, image_url, owner=1,
+        status, price, state, city, address, type, image_url, owner=1, owneremail="shay@gmail.com"
     }) {
         console.log(status);
         const newProperty = {
@@ -38,10 +38,11 @@ class Property {
             address,
             type,
             image_url,
-            owner
+            owner,
+            owneremail
         };
 
-        this.Properties.push(newProperty);
+        this.properties.push(newProperty);
 
         return newProperty;
     }
@@ -59,10 +60,12 @@ class Property {
 
     // Delete a property
     delete(id) {
-        // const property = this.findOne(id);
-        const newProperties = this.properties.filter(property => property.id !== id);
-        this.properties = [...newProperties];
-        return true;
+        const owneremail = this.properties.filter(property => property.owneremail == owneremail);
+        const newProperties = this.properties.filter(property => property.id === id);
+        if (newProperties && owneremail){
+        return this.properties.pop(newProperties);
+        }
+        return false;
     }
 
     // Update a property
@@ -72,23 +75,16 @@ class Property {
 
         if (data.price) {
             this.properties[index].price = data.price;
-        }
-
-        if (data.imageUrl) {
-            this.properties[index].imageUrl = data.imageUrl;
-        }
-
-        if (data.title) {
-            this.properties[index].title = data.title;
-        }
-
+            console.log(this.properties[index]);
         return this.properties[index];
+        }
+        return false;
     }
 
     markPropertySold(id) {
         const property = this.findOne(id);
         if (property) {
-        const index = this.Properties.indexOf(property);
+        const index = this.properties.indexOf(property);
         this.properties[index].status = "sold";
 
         return this.properties[index];
@@ -101,4 +97,4 @@ class Property {
     }
 }
 
-export default Property;
+export default new Property;
