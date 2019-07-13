@@ -2,6 +2,11 @@ import uuid from "uuid";
 import moment from "moment";
 
 class Property {
+    /**
+     * class constructor
+     * @param {object} data
+     */
+
     constructor() {
         this.properties = [];
     }
@@ -24,21 +29,21 @@ class Property {
         return property;
     }
 
-    // Create and save a property
-    create({
-        status, price, state, city, address, type, image_url, owner=1,
-    }) {
-        console.log(status);
+    /**
+     * 
+     * @returns {object} 
+     */
+    create(data) {
         const newProperty = {
             id: uuid.v4(),
-            status,
-            price,
-            state,
-            city,
-            address,
-            type,
-            image_url,
-            owner
+            status: data.status || "available",
+            price: data.price || "",
+            state: data.state || "",
+            city: data.city || "",
+            address: data.address || "",
+            type: data.type || "",
+            image_url: data.image_url || "",
+            owner: data.owner || 1,
         };
 
         this.Properties.push(newProperty);
@@ -46,7 +51,13 @@ class Property {
         return newProperty;
     }
 
-    // Get a property by id
+    /**
+     * 
+     * @param {uuid} id 
+     * @returns {object} property object
+     */
+
+    
     findOne(id) {
         const property = this.properties.find(property => property.id === id);
         
@@ -55,32 +66,30 @@ class Property {
         }
         return property;
     }
-    
 
-    // Delete a property
+    /**
+     * 
+     * @param {uuid} id 
+     */
+    
     delete(id) {
-        // const property = this.findOne(id);
-        const newProperties = this.properties.filter(property => property.id !== id);
-        this.properties = [...newProperties];
+        const property = this.findOne(id);
+        const index = this.properties.indexOf(property);
+        this.properties.splice(index, 1);
         return true;
     }
+    /**
+     * 
+     * @param {uuid} id 
+     * @param {object} data 
+     */
 
-    // Update a property
+
     update(id, data) {
         const property = this.findOne(id);
         const index = this.properties.indexOf(property);
 
-        if (data.price) {
-            this.properties[index].price = data.price;
-        }
-
-        if (data.imageUrl) {
-            this.properties[index].imageUrl = data.imageUrl;
-        }
-
-        if (data.title) {
-            this.properties[index].title = data.title;
-        }
+        this.properties[index].price = data["price"];
 
         return this.properties[index];
     }
