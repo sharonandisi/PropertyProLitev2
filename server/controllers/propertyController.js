@@ -94,27 +94,40 @@ const fetchSpecificProperty = (req, res) => {
 
 const deletePropertyAd = (req, res) => {
     const { id } = req.params;
-    const result = models.Property.delete(id);
-    console.log(id);
+    // const result = models.property.findOne(id);
+    console.log(models.property.findOne(id));
+    
+    if(result){
+    try {
+        
+            models.delete(id)
+            res.send('it worked')
+    } catch (error) {
+        res.send("failed")
+    }
+
+    }
+ };
+    // console.log(id);
     
 
-    if (result) {
-        return res.status(200).json({
-            status: "success",
-            data: "Property ad is sucessfully deleted",
-        });
-    }
-    if (!result) {
-        return res.status(404).json({
-            status: 404,
-            error: "Property not found"
-        });
-    }
-};
+    // if (result) {
+    //     return res.status(200).json({
+    //         status: "success",
+    //         data: "Property ad is sucessfully deleted",
+    //     });
+    // }
+    // if (!result) {
+    //     return res.status(404).json({
+    //         status: 404,
+    //         error: "Property not found"
+    //     });
+    // }
+
 
 const fetchMyads = (req, res) => {
-    const id = req.decoded.payload;
-    const properties = models.Property.findAllMyAds(id);
+   
+    const properties = models.property.findAllMyAds(id);
 
     if (properties.length) {
         return res.status(200).json({
@@ -134,11 +147,8 @@ const editPropertyAd = (req, res) => {
     const { id } = req.params;
     const { price } = req.body;
     const data = price;
-    const result = models.Property.update(id, data);
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
+    const result = models.property.update(id, data);
+    
     if(!result) {
         return res.status(404).json({
             status: 404,

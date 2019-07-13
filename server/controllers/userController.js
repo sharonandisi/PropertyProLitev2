@@ -49,7 +49,7 @@ const User = {
       delete(req,res) {
           const user = UserModel.findOne(req.params.id);
           if (!user) {
-              return res.status(404).json({message:"user not found"})
+              return res.status(404).json({message:"user not found"});
           }
           const ref = UserModel.delete(req,params.id);
           return res.status(204).json(ref);

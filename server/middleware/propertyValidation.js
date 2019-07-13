@@ -35,7 +35,8 @@ class Validation {
                     .required()
                     .error(() => "type required with a min of 3 char with no special chars or letters"),
                     
-                image_url:Joi.string()
+                image_url:Joi.string(),
+                owneremail:Joi.string(),
             };
             const { error } = Joi.validate(req.body, schema);
 
@@ -55,9 +56,7 @@ class Validation {
             price: Joi.number()
                 .required()
                 .error(() => "price required with  no special chars or letters"),
-            owneremail: Joi.string()
-                .email({ minDomainSegments: 2 }).required()
-                .error(() => "Email required field and must be valid")
+            owneremail:Joi.string()
         };
         const { error } = Joi.validate(req.body, schema);
         

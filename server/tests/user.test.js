@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server.js';
@@ -11,9 +12,7 @@ chai.use(chaiHttp);
 
 describe('/Auth', () => {
     describe('/POST signup', () => {
-        // after(()=>{
-        //     users.length = 0
-        // })
+        
         it ("should successfully sign up user", (done) => {
             chai.request(app)
                 .post('/api/v1/auth/signup')
@@ -178,46 +177,13 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.error).equals("is_Agent required .Can either be true or false")
+                    expect(res.body.error).equals("is_Agent required .Can either be true or false");
                     if (err) return done();
                     done();
                 });
         });
 
-        it("should check if the email has been used to register before", (done) => {
-            users.push({
-                email: "shay@gmail.com",
-                firstname: "sharon",
-                lastname: "andy",
-                password: "shay123",
-                phoneNumber: "0712345678",
-                address: "Kenya",
-                is_Agent: false,
-            });
-            chai.request(app)
 
-                .post('/api/v1/auth/signup')
-                .send({
-                    email: "shay@gmail.com",
-                    firstname: "sharon",
-                    lastname: "andy",
-                    password: "shay123",
-                    phoneNumber: "0712345678",
-                    address: "Kenya",
-                    is_Agent: false,
-                })
-                .end((err, res) => {
-                    res.should.have.status(409);
-                    expect(res.body.error).equals("Email exists");
-                    if (err) return done();
-                    done();
-                });
-
-    });
-
-    describe('/POST signin', () => {    
-        
-        });
     
 
 

@@ -56,17 +56,22 @@ class Property {
     // Delete a property
     delete(id) {
         const property = this.findOne(id);
-        const index = this.users.indexOf(property);
-        this.users.splice(index, 1);
-        return {};
+        const index = this.properties.indexOf(property);
+        this.properties.splice(index, 1);
+        
     }
 
     // Update a property
     update(id, data) {
+
         const property = this.findOne(id);
-        const index = this.properties.indexOf(property);
-        this.properties[index].id = data.id || property.id;
-        return this.properties[index];
+        let index = this.properties.indexOf(property);
+        if (this.properties[index].id === data.id) {
+            this.properties[index].price = data.price;
+            console.log(this.properties[index]);
+            return this.properties[index];
+        }
+         
     }
     // mark a property as solg
     markPropertySold(id) {
