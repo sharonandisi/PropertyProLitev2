@@ -1,176 +1,132 @@
-import models from "../models/propertyModel";
+import PropertyModel from "../models/propertyModel";
 
-const createPropertyAd = (req, res) => {
-    const { image_url } = req;
 
-    const {
-        address, state, city, type, price,
-    } = req.body;
-    address.trim();
-    state.trim();
-    city.trim();
-    type.trim();
+class Property {
 
-    const data = {
-        image_url,
-        address,
-        state,
-        city,
-        type,
-        price,
-        status: "available",
-    };
-
-    console.log(models.create(data));
-    const result = models.create(data);
-
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
-};
-
-const fetchAllProperties = (req, res) => {
-
-    const properties = models.findAll();
-
-    if (properties) {
-    return res.status(200).json({
-        status: "success",
-        data: properties,
-    });
-    }
-
-    if (!properties) {
-        return res.status(404).json({
-            status: "error",
-            error: "No adverts found",
-
+createPropertyAd(req, res) {
+    if (!req.body.price && !req.body.state && !req.body.city && !req.body.address && !req.body.type) {
+        return res.status(400).json({
+            status: 400,
+            error: "All field are required"
         });
     }
-};
+    const property = PropertyModel.create(req.body);
+    return res.status(400).json({
+        status: 400,
+        data: property
+    });
+}
 
-const findAdsOfSpecificType = (req, res) => {
+/**
+ * 
+ * @param {uuid} id
+ * @returns {object} property object
+ */
+
+   
+
+
+fetchSpecificProperty(req, res) {
+    const property = PropertyModel.findOne(req.params.id);
+    if (!property) {
+    return res.status(404).json({
+        status: 404,
+        error: "property not found",
+    });
+    }
+    return res.status(200).json({
+        status: 200,
+        data: property
+    });
+}
+
+findAdsOfSpecificType(req, res) {
     let { type } = req.query;
-    // type = decodeURI(type);
-    const properties = models.findAdsOfSpecificType(type);
-console.log(properties.length);
+    const properties = PropertyModel.findAdsOfSpecificType(type);
 
     if (properties.length>0) {
         return res.status(200).json({
-            status: "success",
+            status: 200,
             data: properties,
         });    
     }
     else  {
         return res.status(404).json({
-            status: "error",
+            status: 404,
             error: "No property adverts of that type found"
         });
     }
     
-};
+}
 
-const fetchSpecificProperty = (req, res) => {
-    const { id } = req.params;
-    const result = models.findOne(id);
+deletePropertyAd(req, res) {
+    const property = PropertyModel.findOne(req.params.id);
 
-    if (result) {
-        return res.status(200).json({
-            status: "success",
-            data: result,
-        });
-    }
-
-    if (!result) {
+    if (!property) {
         return res.status(404).json({
-            status: "error",
-            error: "property not found",
+            status: 404,
+            error: "Property not found",
         });
     }
-};
+    const ad = PropertyModel.delete(req.params.id);
+    return res.status(204).json({
+        status: 204,
+        data: ad,
+    });
+}
 
-const deletePropertyAd = (req, res) => {
-    const { id } = req.params;
-    const result = models.Property.delete(id);
-
-    if (result) {
-        return res.status(200).json({
-            status: "success",
-            msg: "Property ad is sucessfully deleted",
-        });
-    }
-};
-
-const fetchMyads = (req, res) => {
-    const id = req.decoded.payload;
-    const properties = models.Property.findAllMyAds(id);
+fetchMyads (req, res) {
+    const id = req.params;
+    const properties = PropertyModel.Property.findAllMyAds(id);
 
     if (properties.length) {
         return res.status(200).json({
-            status: "success",
+            status: 200,
             data: properties,
         });
     }
 
     if (!properties.length) {
         return res.status(400).json({
-            status: "error",
-            msg: "No properties found!",
+            status: 400,
+            error: "No properties found!",
         });
     }
-};
-const editPropertyAd = (req, res) => {
-    const { id } = req.params;
-    const { price, title } = req.body;
-    const data = {
-        title,
-        price,
-    };
-    const result = models.Property.update(id, data);
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
-};
+}
 
-const editPropertyAdImage = (req, res) => {
-    const { id } = req.params;
-    const { image_url } = req;
-    const data = {
-        image_url,
-    };
-    const result = models.Property.update(id, data);
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
-};
 
-const markPropertySold = (req, res) => {
+editPropertyAd(req, res) {
+    const property = PropertyModel.findOne(req.params.id);
+    if (!property) {
+        return res.status(404).json({
+            status: 404,
+            error:"Property not found" 
+        });
+    }
+    const updateProperty = PropertyModel.update(req.params.id, req.body);
+    return res.status(200).json({
+        status:200,
+        data: updateProperty
+    });
+}
+
+
+markPropertySold(req, res) {
     const { id } = req.params;
-    const result = models.markPropertySold(id);
+    const result = PropertyModel.markPropertySold(id);
     if (result) {
     return res.status(200).json({
-        status: "success",
+        status: 200,
         data: result,
     });
     }
     if (!result) 
-    return res.status(200).json({
+    return res.status(404).json({
         status: 404,
-        msg: "property not found",
+        error:"Property not found",
     });
-};
+}
 
-export {
-    createPropertyAd,
-    fetchAllProperties,
-    fetchSpecificProperty,
-    deletePropertyAd,
-    fetchMyads,
-    findAdsOfSpecificType,
-    editPropertyAd,
-    editPropertyAdImage,
-    markPropertySold,
-};
+}
+
+export default Property;

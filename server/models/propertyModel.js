@@ -1,5 +1,5 @@
 import uuid from "uuid";
-import moment from "moment";
+
 
 class Property {
     /**
@@ -11,7 +11,10 @@ class Property {
         this.properties = [];
     }
 
-    //  Fetch all properties
+    /**
+     * @returns {object} returns all properties
+     */
+
     findAll() {
         if (this.properties.length === 0) return false;        
         return this.properties;
@@ -36,7 +39,7 @@ class Property {
     create(data) {
         const newProperty = {
             id: uuid.v4(),
-            status: data.status || "available",
+            status: "available",
             price: data.price || "",
             state: data.state || "",
             city: data.city || "",
@@ -93,6 +96,12 @@ class Property {
 
         return this.properties[index];
     }
+
+    /**
+     * 
+     * @param {uuid} id 
+     * @param {object} data
+     */
 
     markPropertySold(id) {
         const property = this.findOne(id);
