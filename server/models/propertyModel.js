@@ -26,7 +26,7 @@ class Property {
 
     // Create and save a property
     create({
-        status, price, state, city, address, type, image_url, owner=1,
+        status, price, state, city, address, type, image_url, owner=1, 
     }) {
         console.log(status);
         const newProperty = {
@@ -38,62 +38,48 @@ class Property {
             address,
             type,
             image_url,
-            owner
+            owner,
+            
         };
 
-        this.Properties.push(newProperty);
+        this.properties.push(newProperty);
 
         return newProperty;
     }
 
     // Get a property by id
     findOne(id) {
-        const property = this.properties.find(property => property.id === id);
-        
-        if (!property) {
-            return false;         
-        }
-        return property;
+        return this.properties.find(property => property.id === id);
     }
     
 
     // Delete a property
     delete(id) {
-        // const property = this.findOne(id);
-        const newProperties = this.properties.filter(property => property.id !== id);
-        this.properties = [...newProperties];
-        return true;
+        const property = this.findOne(id);
+        const index = this.properties.indexOf(property);
+        this.properties.splice(index, 1);
+        
     }
 
     // Update a property
     update(id, data) {
+
         const property = this.findOne(id);
-        const index = this.properties.indexOf(property);
-
-        if (data.price) {
+        let index = this.properties.indexOf(property);
+        if (this.properties[index].id === data.id) {
             this.properties[index].price = data.price;
+            console.log(this.properties[index]);
+            return this.properties[index];
         }
-
-        if (data.imageUrl) {
-            this.properties[index].imageUrl = data.imageUrl;
-        }
-
-        if (data.title) {
-            this.properties[index].title = data.title;
-        }
-
-        return this.properties[index];
+         
     }
-
+    // mark a property as solg
     markPropertySold(id) {
         const property = this.findOne(id);
-        if (property) {
-        const index = this.Properties.indexOf(property);
+        const index = this.properties.indexOf(property);
         this.properties[index].status = "sold";
 
         return this.properties[index];
-        }
-        return false;
     }
 
     remove() {
@@ -101,4 +87,4 @@ class Property {
     }
 }
 
-export default Property;
+export default new Property;

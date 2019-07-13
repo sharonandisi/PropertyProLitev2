@@ -4,7 +4,7 @@ const createPropertyAd = (req, res) => {
     const { image_url } = req;
 
     const {
-        address, state, city, type, price,
+        address, state, city, type, price
     } = req.body;
     address.trim();
     state.trim();
@@ -19,6 +19,8 @@ const createPropertyAd = (req, res) => {
         type,
         price,
         status: "available",
+        owner: "1"
+
     };
 
     console.log(models.create(data));
@@ -92,19 +94,40 @@ const fetchSpecificProperty = (req, res) => {
 
 const deletePropertyAd = (req, res) => {
     const { id } = req.params;
-    const result = models.Property.delete(id);
-
-    if (result) {
-        return res.status(200).json({
-            status: "success",
-            msg: "Property ad is sucessfully deleted",
-        });
+    // const result = models.property.findOne(id);
+    console.log(models.property.findOne(id));
+    
+    if(result){
+    try {
+        
+            models.delete(id)
+            res.send('it worked')
+    } catch (error) {
+        res.send("failed")
     }
-};
+
+    }
+ };
+    // console.log(id);
+    
+
+    // if (result) {
+    //     return res.status(200).json({
+    //         status: "success",
+    //         data: "Property ad is sucessfully deleted",
+    //     });
+    // }
+    // if (!result) {
+    //     return res.status(404).json({
+    //         status: 404,
+    //         error: "Property not found"
+    //     });
+    // }
+
 
 const fetchMyads = (req, res) => {
-    const id = req.decoded.payload;
-    const properties = models.Property.findAllMyAds(id);
+   
+    const properties = models.property.findAllMyAds(id);
 
     if (properties.length) {
         return res.status(200).json({
@@ -122,30 +145,24 @@ const fetchMyads = (req, res) => {
 };
 const editPropertyAd = (req, res) => {
     const { id } = req.params;
-    const { price, title } = req.body;
-    const data = {
-        title,
-        price,
-    };
-    const result = models.Property.update(id, data);
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
+    const { price } = req.body;
+    const data = price;
+    const result = models.property.update(id, data);
+    
+    if(!result) {
+        return res.status(404).json({
+            status: 404,
+            data: result,
+        });
+    }
+    if(result) {
+        return res.status(200).json({
+            status: "success",
+            data: result,
+        });
+    }
 };
 
-const editPropertyAdImage = (req, res) => {
-    const { id } = req.params;
-    const { image_url } = req;
-    const data = {
-        image_url,
-    };
-    const result = models.Property.update(id, data);
-    res.status(201).json({
-        status: "success",
-        data: result,
-    });
-};
 
 const markPropertySold = (req, res) => {
     const { id } = req.params;
@@ -157,9 +174,9 @@ const markPropertySold = (req, res) => {
     });
     }
     if (!result) 
-    return res.status(200).json({
+    return res.status(404).json({
         status: 404,
-        msg: "property not found",
+        error: "property not found",
     });
 };
 
@@ -171,6 +188,5 @@ export {
     fetchMyads,
     findAdsOfSpecificType,
     editPropertyAd,
-    editPropertyAdImage,
     markPropertySold,
 };

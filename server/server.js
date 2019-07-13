@@ -1,6 +1,8 @@
 import express from "express";
 import "@babel/polyfill";
 import router from "./routes";
+import { urlencoded, json } from "body-parser";
+import { cloudinaryConfig } from "./config/cloudinaryConfig";
 
 
 
@@ -8,6 +10,8 @@ const app = express();
 
 
 app.use(express.json());
+
+
 // eslint-disable-next-line quotes
 app.use('/', router);
 

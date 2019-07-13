@@ -35,7 +35,8 @@ class Validation {
                     .required()
                     .error(() => "type required with a min of 3 char with no special chars or letters"),
                     
-                image_url:Joi.string()
+                image_url:Joi.string(),
+                owneremail:Joi.string(),
             };
             const { error } = Joi.validate(req.body, schema);
 
@@ -49,7 +50,24 @@ class Validation {
         }
     }
 
-   
+    static async  validateUpdateProperty(req, res, next) {
+     try{
+        const schema = {
+            price: Joi.number()
+                .required()
+                .error(() => "price required with  no special chars or letters"),
+            owneremail:Joi.string()
+        };
+        const { error } = Joi.validate(req.body, schema);
+        
+        if (error) {
+            return response.validationsError(400, error.details[0].message, res);
+        }
+        next();
+        } catch (error) {
+            return response.catchErrors(500, error.toString(), res);
+        }
+    }
 
 }
 
