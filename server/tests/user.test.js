@@ -47,7 +47,7 @@ describe('/Auth', () => {
             })
             .end((err, res) => {
                 res.should.have.status(400);
-                expect(res.body.error).equals("Email required field and must be valid")
+                expect(res.body.error).equals("Email required field and must be valid");
                 if (err) return done();
                 done(); 
             });
@@ -68,7 +68,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.error).equals("Firstname is required with a min of 3 chars and no special chars or numbers")
+                    expect(res.body.error).equals("Firstname is required with a min of 3 chars and no special chars or numbers");
                     if (err) return done();
                     done();
                 });
@@ -89,7 +89,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.error).equals("Lastname required  with a min of 3 chars and no special chars or numbers")
+                    expect(res.body.error).equals("Lastname required  with a min of 3 chars and no special chars or numbers");
                     if (err) return done();
                     done();
                 });
@@ -111,7 +111,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.error).equals("Password required with a min of 5 chars and no special chars")
+                    expect(res.body.error).equals("Password required with a min of 5 chars and no special chars");
                     if (err) return done();
                     done();
                 });
@@ -133,7 +133,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.error).equals("phoneNumber required with a min of 10 numbers with no special chars or letters")
+                    expect(res.body.error).equals("phoneNumber required with a min of 10 numbers with no special chars or letters");
                     if (err) return done();
                     done();
                 });
@@ -155,7 +155,7 @@ describe('/Auth', () => {
                 })
                 .end((err, res) => {
                     res.should.have.status(400);
-                    expect(res.body.error).equals("Address required with a min of 4 chars and no special chars")
+                    expect(res.body.error).equals("Address required with a min of 4 chars and no special chars");
                     if (err) return done();
                     done();
                 });
@@ -181,13 +181,44 @@ describe('/Auth', () => {
                     if (err) return done();
                     done();
                 });
+        });   
+        
+    });
+
+    describe('/POST signin', () => {
+
+        it("should successfully sign up a user", (done) => {
+            chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send({
+                email: "shay@gmail.com",
+                password: "shay123",
+            })
+            .end((err,res) => {
+                res.should.have.status(201);
+                if(err) return done();
+                done();
+            });
+
         });
 
 
-    
+        it("should not sign in a user missing the email", (done) => {
+            chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send({
+                email: "",
+                password: "shay123",
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+                expect(res.body.error).equals("Email is a required field and must be valid");
+                if (err) return done();
+                done();
 
+            });
 
-       
-        
+        });
+
     });
 });

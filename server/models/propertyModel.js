@@ -72,9 +72,15 @@ class Property {
     
     delete(id) {
         const property = this.findOne(id);
+        console.log(property);
+        if(property){
         const index = this.properties.indexOf(property);
         this.properties.splice(index, 1);
         return true;
+        }
+        if(!property){
+            return false;
+        }
     }
     /**
      * 
@@ -84,7 +90,8 @@ class Property {
 
 
     update(id, data) {
-
+        const property = this.findOne(id);
+        const index = this.properties.indexOf(property);
         this.properties[index].price = data["price"];
 
         return this.properties[index];
