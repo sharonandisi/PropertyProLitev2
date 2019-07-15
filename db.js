@@ -18,27 +18,26 @@ pool.on('connect', () => {
  * Create Tables
  */
 
- const createTables = () => {
+const createTables = () => {
     const queryText = 
         `CREATE TABLE IF NOT EXISTS
-        properties(
-            id UUID PRIMARY KEY,
-            status VARCHAR(128) NOT NULL,
-            price VARCHAR(128) NOT NULL,
-            state VARCHAR(128) NOT NULL,
-            city VARCHAR(128) NOT NULL,
-            address VARCHAR(128) NOT NULL,
-            type VARCHAR(128) NOT NULL,
-            image_url VARCHAR(128),
-            created on TIMESTAMP
-
-    
-        )`;
+            properties(
+                id UUID PRIMARY KEY,
+                status VARCHAR(128) NOT NULL,
+                price VARCHAR(128) NOT NULL,
+                state VARCHAR(128) NOT NULL,
+                city VARCHAR(128) NOT NULL,
+                address VARCHAR(128) NOT NULL,
+                type VARCHAR(128) NOT NULL,
+                image_url VARCHAR(128),
+                created on TIMESTAMP
+            );`;
 
     pool.query(queryText)
-        .then((res) => {
-                console.log(res);
-                pool.end();
+        .then((res, done) => {
+            console.log(res);
+            pool.end();
+            done();
         })
         .catch((err) => {
             console.log(err);
