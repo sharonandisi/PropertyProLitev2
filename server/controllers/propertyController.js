@@ -1,10 +1,16 @@
 
 import PropertyModel from "../models/propertyModel";
-
+import upload from "../middleware/uploadimage";
+import "dotenv/config";
 
 class Property {
-
+    
         static async createPropertyAd(req, res) {
+            let image_url
+            if(process.env.NODE_ENV !== "test"){
+                image_url = req.file !== null ? await upload(req.file.image_url) :"https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?cs=srgb&dl=architecture-beautiful-exterior-106399.jpg&fm=jpg";
+            }
+
             if (!req.body.price && !req.body.state && !req.body.city && !req.body.address && !req.body.type) {
                 return res.status(400).json({
                     status: 400,
@@ -12,6 +18,7 @@ class Property {
                 });
             }
             const property = PropertyModel.create(req.body);
+            console.log(property);
             return res.status(201).json({
                 status: 201,
                 data: property

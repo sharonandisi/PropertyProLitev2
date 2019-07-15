@@ -1,6 +1,6 @@
 import multer from "multer";
 import Datauri from "datauri";
-import path from 'path';
+import path from "path";
 
 const storage = multer.memoryStorage();
 const multerUploads = multer({ storage }).single("image");

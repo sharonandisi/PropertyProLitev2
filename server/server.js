@@ -1,14 +1,20 @@
+/* eslint-disable quotes */
 import express from "express";
 import "@babel/polyfill";
 import router from "./routes";
-import { urlencoded, json } from "body-parser";
+import bodyParser from 'body-parser'
+// import { urlencoded, json } from "body-parser";
 import { cloudinaryConfig } from "./config/cloudinaryConfig";
 
 
 
 const app = express();
+app.use(express.json());
+app.use(bodyParser.json({ limit: '50mb' }));
+ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 
+app.use('*', cloudinaryConfig);
 app.use(express.json());
 
 

@@ -1,26 +1,37 @@
-import { uploader } from "./cloudinary";
-import { dataUri } from "./multer";
 
-const uploadImage = (req, res, next) => {
-    if (req.file) {
-        const file = dataUri(req).content;
-        uploader.upload(file)
-            .then((result) => {
-                req.imageUrl = result.url;
-                next();
-            })
-            .catch(err => res.status(400).json({
-                status: "error",
-                message: "Something went wrong while processing your request.",
-                error: err,
-            }));
-    }
-    if (!req.file) {
-        return res.status(400).json({
-            status: "error",
-            msg: "Please upload an image of your property to continue.",
-        });
+import  dotenv from "dotenv";
+import cloudinary from "cloudinary";
+import multer from "multer";
+import cloudinaryStorage from "multer-storage-cloudinary";
+
+dotenv.config();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+
+const storage = cloudinaryStorage({
+    cloudinary, folder: "property", allowedFormats: ["jpg", "png", "gif"], transformation: [{ width: 500, height: 500, crop: "limit" }],
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/gif") {
+        cb(null, true);
+    } else {
+        cb(null, false);
     }
 };
 
-export default uploadImage;
+const upload = multer({
+    storage,
+    limits: {
+        fileSize: 1024 * 1020 * 5,
+    },
+    fileFilter,
+
+}).single("image");
+
+export default upload;
