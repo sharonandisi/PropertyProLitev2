@@ -2,9 +2,9 @@
 import express from "express";
 import "@babel/polyfill";
 import router from "./routes";
-import bodyParser from 'body-parser'
+import bodyParser from "body-parser";
 // import { urlencoded, json } from "body-parser";
-import { cloudinaryConfig } from "./config/cloudinaryConfig";
+import { cloudinaryConfig } from "./usingJSObject/config/cloudinaryConfig";
 
 
 
