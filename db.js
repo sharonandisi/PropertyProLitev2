@@ -30,6 +30,8 @@ pool.on('connect', () => {
             address VARCHAR(128) NOT NULL,
             type VARCHAR(128) NOT NULL,
             image_url VARCHAR(128),
+            created on TIMESTAMP
+
     
         )`;
 
