@@ -1,6 +1,6 @@
 import  db from "../db";
-import authHelper from "../helpers";
-import { create } from "domain";
+import authHelper from "../helpers/auth";
+
 
 
 
@@ -26,7 +26,7 @@ const User = {
                  error:"Please enter a valid email address"
              })
          }
-         const hashPassword = Helper.hashPassword(req.body.password);
+         const hashPassword = authHelper.hashPassword(req.body.password);
 
          const createQuery = `INSERT INTO
          users(email, first_name, last_name, password, phoneNumber, address)
