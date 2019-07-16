@@ -16,12 +16,11 @@ const Property = {
 
      async create(req, res) {
          const text = `INSERT INTO
-         properties(id, status, type, state, city, address, price, created_on, image_url)
-         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         properties(status, type, state, city, address, price, image_url, owneremail)
+         VALUES($1, $2, $3, $4, $5, $6, $7, $8)
          returning *`;
 
          const values = [
-             uuidv4(),
              req.body.status,
              req.body.type,
              req.body.state,
@@ -29,15 +28,13 @@ const Property = {
              req.body.address,
              req.body.price,
              moment(new Date()),
-             req.image_url
+             req.image_url,
+             req.body.owneremail
         
          ];
-         console.log(req.body.status);
-         console.log(values);
 
          try {
              const { rows } = await db.query(text, values);
-             console.log(rows);
              return res.status(201).json({
                  status: 201,
                  message: "Property was successfully posted",

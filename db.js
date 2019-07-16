@@ -2,6 +2,7 @@ const  { Pool } = require ("pg");
 const  dotenv = require ("dotenv");
 
 
+
 dotenv.config();
 
 
@@ -9,10 +10,7 @@ const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
-
-pool.on('connect', () => {
-    console.log("connected to the db");
-});
+pool.connect();
 
 /**
  * Create Tables
@@ -20,9 +18,9 @@ pool.on('connect', () => {
 
 const createTables = () => {
     const queryText = 
-        `CREATE TABLE IF NOT EXISTS
+        `CREATE TABLE IF NOT EXISTS 
             properties(
-                id UUID PRIMARY KEY,
+                id SERIAL PRIMARY KEY,
                 status VARCHAR(128) NOT NULL,
                 price VARCHAR(128) NOT NULL,
                 state VARCHAR(128) NOT NULL,
@@ -30,20 +28,21 @@ const createTables = () => {
                 address VARCHAR(128) NOT NULL,
                 type VARCHAR(128) NOT NULL,
                 image_url VARCHAR(128),
-                created on TIMESTAMP
+                ownermail VARCHAR(128) NOT NULL,
+                created_on TIMESTAMP NOT NULL DEFAULT NOW()
             );`;
 
     pool.query(queryText)
-        .then((res, done) => {
+        .then((res) => {
             console.log(res);
             pool.end();
-            done();
         })
         .catch((err) => {
             console.log(err);
             pool.end();
         });
  };
+
 
  /*
   * DropTables
@@ -65,7 +64,6 @@ const dropTables = () => {
 
 
 pool.on('remove', () => {
-    console.log("client removed");
     process.exit(0);
 });
 
@@ -73,5 +71,6 @@ module.exports = {
     createTables,
     dropTables
 };
+
 require ("make-runnable");
 

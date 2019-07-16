@@ -21,11 +21,9 @@ export default {
              
             pool.query(text, params)
             .then((res) => {
-                console.log(res)
                 return res;
             })
             .catch((err) => {
-                console.log(err)
                 reject(err);
             });
                         
