@@ -1,4 +1,4 @@
-import bcrpyt from "bcrypt";
+import bcrpyt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 
