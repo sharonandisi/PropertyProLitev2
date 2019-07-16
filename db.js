@@ -44,6 +44,32 @@ const createTables = () => {
  };
 
 
+ /**
+  * Create User Table
+  */
+const createUserTable = () => {
+    const queryText =
+    `CREATE TABLE IF NOT EXISTS
+    users(
+        id SERIAL PRIMARY KEY,
+        email VARCHAR(128) UNIQUE NOT NULL,
+        password VARCHAR(256) NOT NULL,
+        phoneNumber VARCHAR(128) NOT NULL,
+        address VARCHAR(128) NOT NULL,
+        is_admin VARCHAR(128) NOT NULL 
+    )`;
+
+    pool.query(queryText)
+        .then((res) => {
+            console.log(res);
+            pool.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            pool.end();
+        });
+};
+
  /*
   * DropTables
   */
@@ -60,8 +86,36 @@ const dropTables = () => {
             console.log(err);
             pool.end();
         });
-}
+};
 
+
+const dropUserTables = () => {
+    const queryText = 'DROP TABLE IF EXISTS users returning *';
+    pool.query(queryText)
+        .then((res) => {
+            pool.end();
+        })
+        .catch((err) => {
+            pool.end();
+        });
+};
+
+/**
+ * Create All Tables
+ */
+const createAllTables = () => {
+    createUserTable();
+    createAllTables();
+};
+
+/**
+ * Drop all tables
+ */
+
+const dropAllTables = () => {
+    dropUserTables();
+    dropTables();
+}
 
 pool.on('remove', () => {
     process.exit(0);
@@ -69,7 +123,11 @@ pool.on('remove', () => {
 
 module.exports = {
     createTables,
-    dropTables
+    createUserTable,
+    createAllTables,
+    dropUserTables,
+    dropTables,
+    dropAllTables
 };
 
 require ("make-runnable");
