@@ -15,15 +15,16 @@ export default {
      * @returns {object} object
      */
 
-
+    
      query(text, params){
          return new Promise((resolve, reject) => {
-             
             pool.query(text, params)
             .then((res) => {
+                console.log(res);
                 return res;
             })
             .catch((err) => {
+                console.log(err);
                 reject(err);
             });
                         

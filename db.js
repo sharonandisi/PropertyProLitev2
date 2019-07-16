@@ -28,7 +28,7 @@ const createTables = () => {
                 address VARCHAR(128) NOT NULL,
                 type VARCHAR(128) NOT NULL,
                 image_url VARCHAR(128),
-                ownermail VARCHAR(128) NOT NULL,
+                owneremail VARCHAR(128) NOT NULL,
                 created_on TIMESTAMP NOT NULL DEFAULT NOW()
             );`;
 

@@ -1,5 +1,4 @@
 import moment from "moment";
-import uuidv4 from "uuid/v4";
 import db from "../db";
 import "@babel/polyfill";
 
@@ -16,8 +15,8 @@ const Property = {
 
      async create(req, res) {
          const text = `INSERT INTO
-         properties(status, type, state, city, address, price, image_url, owneremail)
-         VALUES($1, $2, $3, $4, $5, $6, $7, $8)
+         properties(status, type, state, city, address, price, created_on, image_url, owneremail)
+         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
          returning *`;
 
          const values = [
@@ -39,6 +38,7 @@ const Property = {
                  status: 201,
                  message: "Property was successfully posted",
                  data: rows[0]
+
              });
          } catch(error) {
              return res.status(400).json({
