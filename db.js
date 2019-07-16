@@ -34,11 +34,9 @@ const createTables = () => {
 
     pool.query(queryText)
         .then((res) => {
-            console.log(res);
             pool.end();
         })
         .catch((err) => {
-            console.log(err);
             pool.end();
         });
  };
@@ -61,11 +59,9 @@ const createUserTable = () => {
 
     pool.query(queryText)
         .then((res) => {
-            console.log(res);
             pool.end();
         })
         .catch((err) => {
-            console.log(err);
             pool.end();
         });
 };
@@ -79,11 +75,9 @@ const dropTables = () => {
     const queryText = 'DROP TABLE IF EXISTS properties';
     pool.query(queryText)
         .then((res) => {
-            console.log(res);
             pool.end();
         })
         .catch((err) => {
-            console.log(err);
             pool.end();
         });
 };
