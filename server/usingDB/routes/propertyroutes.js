@@ -1,6 +1,7 @@
 import express from "express";
 import Property from "../controllers/Property";
 import auth from "../middleware/authen";
+import Validation from "../middleware/propertyValidation";
 
 
 
@@ -8,11 +9,11 @@ import auth from "../middleware/authen";
 const router = express.Router();
 
 
-router.post('/property', Auth.verifyToken, Property.create);
-router.get('/properties', Auth.verifyToken, Property.getAll);
-router.get('/properties/:id', Auth.verifyToken, Property.getOne);
-router.patch('/property/:id', Property.update);
-router.get('/property', Property.getType);
-router.delete('/property/:id', Property.delete);
+router.post('/property', Validation.validatePostproperty, auth.verifyToken, Property.create);
+router.get('/properties', auth.verifyToken, Property.getAll);
+router.get('/properties/:id', auth.verifyToken, Property.getOne);
+router.patch('/property/:id', auth.verifyToken, Property.update);
+router.get('/property', auth.verifyToken, Property.getType);
+router.delete('/property/:id', auth.verifyToken, Property.delete);
 
 export default router;
