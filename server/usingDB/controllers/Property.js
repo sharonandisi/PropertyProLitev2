@@ -148,8 +148,7 @@ const Property = {
     async update(req, res) {
         const findOneQuery = 'SELECT * FROM properties WHERE id=$1 AND owner_id = $2';
         const updateOneQuery = `UPDATE properties
-      SET state=$1,city=$2,address=$3,price=$4
-      WHERE id=$5 AND owner_id = $6 returning *`;
+      SET price=$1 WHERE id=$2 AND owner_id = $3 returning *`;
         try {
             const { rows } = await db.query(findOneQuery, [req.params.id, req.user.id]);
             if (!rows[0]) {
@@ -158,9 +157,6 @@ const Property = {
                     error: 'property not found' });
             }
             const values = [
-                req.body.state || rows[0].state,
-                req.body.city || rows[0].city,
-                req.body.address || rows[0].address,
                 req.body.price || rows[0].price,
                 moment(new Date()),
                 req.params.id,
