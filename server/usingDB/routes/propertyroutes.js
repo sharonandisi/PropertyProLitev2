@@ -9,7 +9,7 @@ import Validation from "../middleware/propertyValidation";
 const router = express.Router();
 
 
-router.post('/property', Validation.validatePostproperty, auth.verifyToken, Property.create);
+router.post('/property', Validation.validatePostproperty, Property.create);
 router.get('/properties', auth.verifyToken, Property.getAll);
 router.get('/properties/:id', auth.verifyToken, Property.getOne);
 router.patch('/property/:id', auth.verifyToken, Property.update);

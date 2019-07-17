@@ -59,10 +59,10 @@ const createUserTable = () => {
 
     pool.query(queryText)
         .then((res) => {
-            pool.end();
+            pool.release();
         })
         .catch((err) => {
-            pool.end();
+            pool.release();
         });
 };
 

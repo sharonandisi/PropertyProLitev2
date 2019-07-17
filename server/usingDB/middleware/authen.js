@@ -27,8 +27,10 @@ async verifyToken(req, res, next) {
         const text = 'SELECT * FROM users WHERE id = $1';
         const { rows } = await db.query(text, [decoded.userId]);
         if (!rows[0]) {
-            return res.status(400).json({   status: 400,
-                error: "The token you provided is invalid" });
+            return res.status(400).json({   
+                status: 400,
+                error: "The token you provided is invalid" 
+            });
         }
         req.user = { id: decoded.userId };
         next();

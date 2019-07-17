@@ -37,6 +37,7 @@ class Validation {
                     
                 image_url:Joi.string(),
                 owneremail:Joi.string(),
+                status:Joi.string(),
             };
             const { error } = Joi.validate(req.body, schema);
 
