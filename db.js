@@ -59,10 +59,10 @@ const createUserTable = () => {
 
     pool.query(queryText)
         .then((res) => {
-            pool.release();
+            pool.end();
         })
         .catch((err) => {
-            pool.release();
+            pool.end();
         });
 };
 
@@ -99,7 +99,7 @@ const dropUserTables = () => {
  */
 const createAllTables = () => {
     createUserTable();
-    createAllTables();
+    createTables();
 };
 
 /**

@@ -83,9 +83,9 @@ const Property = {
 
 
     async getOne(req, res) {
-        const text = 'SELECT * FROM properties WHERE id = $1 AND owner_id = $2';
+        const text = 'SELECT * FROM properties WHERE id = $1 AND owner_id = $2 AND owneremail = $3';
         try {
-            const { rows } = await db.query(text, [req.params.id, req.user.id]);
+            const { rows } = await db.query(text, [req.params.id, req.user.id, req.owneremail]);
             if (!rows[0]) {
                 return res.status(404).json({
                     status: 404, 
