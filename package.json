@@ -9,7 +9,8 @@
     "start": "NODE_ENV=production npm run build && node build/server.js",
     "start-dev": "NODE_ENV=development nodemon --exec babel-node server/server.js",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
+    "create": "../db createTables"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,8 @@
     "@babel/preset-env": "^7.5.4",
     "@babel/register": "^7.4.4",
     "@hapi/joi": "^15.1.0",
+    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cloudinary": "^1.14.0",
     "datauri": "^2.0.0",
