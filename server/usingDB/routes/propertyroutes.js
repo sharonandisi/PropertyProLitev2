@@ -13,6 +13,7 @@ router.post('/property', Validation.validatePostproperty, auth ,Property.create)
 router.get('/properties', Property.getAll);
 router.get('/properties/:id',  Property.getOne);
 router.patch('/property/:id', auth, Property.update);
+router.patch('/property/:id/sold', auth, Property.updateStatus);
 router.get('/property', Property.getType);
 router.delete('/property/:id', auth, Property.delete);
 
