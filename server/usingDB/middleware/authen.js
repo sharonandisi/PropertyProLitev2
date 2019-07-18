@@ -1,9 +1,10 @@
 
 import jwt from 'jsonwebtoken';
 import db from '../db';
+import { config } from 'dotenv';
 
 
-const Auth = {
+config();
     /**
      * Verify Token
      * @param {object} req
@@ -14,31 +15,37 @@ const Auth = {
 
 
 
-async verifyToken(req, res, next) {
-    const token = req.headers['x-access-token'];
-    if (!token) {
-        return res.status(400).json({ 
-            status: 400,
-            error: "Token is not provided" 
-        });
-    }
-    try {
-        const decoded = await jwt.verify(token, process.env.SECRET);
-        const text = 'SELECT * FROM users WHERE id = $1';
-        const { rows } = await db.query(text, [decoded.userId]);
-        if (!rows[0]) {
-            return res.status(400).json({   status: 400,
-                error: "The token you provided is invalid" });
+const verifyToken= async (req, res, next) => {
+
+        try {
+            const headerToken = req.headers.authorization;
+            if (!headerToken) {
+                return res.status(400).json({
+                    status: 400,
+                    error: "Token is not provided"
+                });
+            }
+            const token = headerToken.split(' ')[1];
+            
+            await jwt.verify(token, process.env.SECRET, (err, data) => {
+                if (err) return res.status(403).json({
+                    status: 400,
+                    error: err.message
+                })
+                res.locals.user = data
+                
+            });
+            next();
+        } catch (error) {
+            return res.status(400).json({
+                status: 400,
+                error: "Bad request"
+            });
         }
-        req.user = { id: decoded.userId };
-        next();
-    } catch (error) {
-        return res.status(400).json({
-            status: 400,
-            error:"Bad request"
-        });
-    }
-}
+
+   
+   
 }
 
-export default Auth;
+
+export default verifyToken;
