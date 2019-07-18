@@ -150,11 +150,10 @@ const Property = {
 
 
     async update(req, res) {
-        const findOneQuery = 'SELECT * FROM properties WHERE id=$1 AND owner = $2';
         const updateOneQuery = `UPDATE properties
-      SET price=$1 WHERE id=$2 AND owner = $3 returning *`;
+      SET price=$1 WHERE id=$2`;
         try {
-            const { rows } = await db.query(findOneQuery, [req.params.id, req.user.email]);
+            const { rows } = await db.query(findOneQuery, [ req.price, req.params.id]);
             if (!rows[0]) {
                 return res.status(404).json({ 
                     status: 400,
@@ -162,7 +161,6 @@ const Property = {
             }
             const values = [
                 req.body.price || rows[0].price,
-                moment(new Date()),
                 req.params.id,
                 req.user.id
             ];
@@ -190,9 +188,9 @@ const Property = {
 
 
     async delete(req, res) {
-        const deleteQuery = 'DELETE FROM properties WHERE id=$1 AND owner_id = $2 returning *';
+        const deleteQuery = 'DELETE FROM properties WHERE id=$1';
         try {
-            const { rows } = await db.query(deleteQuery, [req.params.id, req.user.id]);
+            const { rows } = await db.query(deleteQuery, [req.params.id]);
             if (!rows[0]) {
                 return res.status(404).json({ 
                     status: 404,
