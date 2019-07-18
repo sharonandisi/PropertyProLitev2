@@ -91,7 +91,7 @@ const Property = {
                 return res.status(404).json({
                     status: 404, 
                     error: 'property not found' });
-            }
+            } console.log(err)
             return res.status(200).json({
                 status: 200,
                 message: "Success",
@@ -123,7 +123,7 @@ const Property = {
                 return res.status(404).json({ 
                     status: 404,
                     error : 'property not found' });
-            }
+            } console.log(err)
             return res.status(200).json({
                 status: 200,
                 message: "Success",
@@ -151,16 +151,47 @@ const Property = {
       SET price=$1 WHERE id=$2 AND owner = $3`;
         try {
             const values = [
-                req.body.price || rows[0].price,
+                req.body.price,
                 req.params.id,
                 res.locals.user.email
             ];
+            console.log(values)
             const { rows } = await db.query(updateOneQuery, values);
+            console.log(rows)
             return res.status(200).json({
                 status: 200,
                 message: "successfully updated",
                 data: response.rows[0]
             });
+        } catch (err) {
+            return res.status(400).json({
+                status: 400,
+                error: 'Bad request'
+            });
+        }
+    },
+    
+    async updateStatus(req, res) {
+        const updateOneQuery = `UPDATE properties
+      SET status=$1 WHERE id=$2 AND owner = $3`;
+        try {
+            const values = [
+                status = "Sold",
+                req.params.id,
+                res.locals.user.email
+            ];
+            console.log(values)
+            const { rows } = await db.query(updateOneQuery, values);
+            if(rows[0]){
+            return res.status(200).json({
+                status: 200,
+                message: "successfully marked as sold",
+                data: response.rows[0]
+            })
+            }return res.status(404).json({
+                status: 404,
+                error: "property not found",
+            })
         } catch (err) {
             return res.status(400).json({
                 status: 400,
@@ -176,7 +207,6 @@ const Property = {
     * @param {object} res 
     * @returns {void} return status code 204 
     */
-
 
     async delete(req, res) {
         const deleteQuery = 'DELETE FROM properties WHERE id=$1 AND owner =$2';
