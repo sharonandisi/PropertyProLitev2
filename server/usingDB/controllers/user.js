@@ -23,7 +23,7 @@ const User = {
          if (!authHelper.isValidEmail(req.body.email)) {
              return res.status(400).json({
                  status: 400,
-                 error:"Please enter a valid email address"
+                 error:"Email is a required field and must be valid"
              })
          }
          const password = authHelper.hashPassword(req.body.password);

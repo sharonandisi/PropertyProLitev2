@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 
 dotenv.config()
 
-env = process.env.NODE_ENV
+const env = process.env.NODE_ENV
 
 const DBURL = {
     test: process.env.DATABASE_URL_TEST,
