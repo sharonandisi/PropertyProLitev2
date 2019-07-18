@@ -7,5 +7,23 @@ cache:
   directories:
     - "$HOME/.npm"
 
+addons:
+  postgresql: "9.6"
+
+services:
+  - postgresql
+
+before_script:
+  - psql -c "CREATE DATABASE test_db;" -U postgres
+  - npm i
+  - npm run migrate
+
+env:
+  global:
+    - DATABASE_TEST=postgres@localhost/test_db
+    - SECRET_KEY=supersecret
+
 script:
   - npm run test 
+
+after_success: npm run coverage
