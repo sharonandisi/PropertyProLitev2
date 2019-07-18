@@ -31,11 +31,10 @@ const Property = {
              req.body.price,
              moment(new Date()),
              req.image_url,
-             res.locals.user
+             res.locals.user.email
         
          ];
              const { rows } = await db.query(createQuery, values);
-             console.log(rows[0])
              return res.status(201).json({
                  status: 201,
                  message: "Property was successfully posted",
@@ -61,7 +60,6 @@ const Property = {
 
     async getAll(req, res) {
         const findAllQuery = 'SELECT * FROM properties';
-        console.log(findAllQuery)
         try {
             const { rows } = await db.query(findAllQuery);
             return res.status(200).json({
@@ -86,10 +84,9 @@ const Property = {
 
 
     async getOne(req, res) {
-        const text = 'SELECT * FROM properties WHERE id = $1 ';
+        const text = 'SELECT * FROM properties WHERE id = $1';
         try {
             const { rows } = await db.query(text, [req.params.id]);
-            console.log(rows[0])
             if (!rows[0]) {
                 return res.status(404).json({
                     status: 404, 
@@ -150,19 +147,20 @@ const Property = {
 
 
     async update(req, res) {
+        const findOneQuery = 'SELECT * FROM properties WHERE id=$1 AND owner = $2';
         const updateOneQuery = `UPDATE properties
-      SET price=$1 WHERE id=$2`;
+      SET price=$1 WHERE id=$2 AND owner = $3`;
         try {
-            const { rows } = await db.query(findOneQuery, [ req.price, req.params.id]);
+            const { rows } = await db.query(findOneQuery, [req.params.id, req.owner]);
             if (!rows[0]) {
                 return res.status(404).json({ 
-                    status: 400,
+                    status: 404,
                     error: 'property not found' });
             }
             const values = [
                 req.body.price || rows[0].price,
                 req.params.id,
-                req.user.id
+                res.locals.user.email
             ];
             const response = await db.query(updateOneQuery, values);
             return res.status(200).json({
@@ -198,7 +196,8 @@ const Property = {
             }
             return res.status(204).json({ 
                 status: 204,
-                error: 'property is deleted' });
+                message: 'property is deleted' 
+            });
         } catch (error) {
             return res.status(400).json({
                 status: 400,

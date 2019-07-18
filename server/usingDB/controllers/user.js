@@ -42,7 +42,7 @@ const User = {
             ];
         try {
             const { rows } = await db.query(createQuery, values);
-            const token = authHelper.generateToken(rows[0].id);
+            const token = authHelper.generateToken({ id:rows[0].id, email:rows[0].id });
             return res.status(201).json({
                 status: 201,
                 message:"Successfully signed up",
@@ -107,7 +107,7 @@ const User = {
                     error: 'The credentials you provided is incorrect' 
                 });
             }
-            const token = authHelper.generateToken(rows[0].id);
+            const token = authHelper.generateToken({ id: rows[0].id, email:rows[0].email});
             return res.status(200).json({ 
                 status: 200,
                 message: "Successfully logged in",

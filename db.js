@@ -1,18 +1,17 @@
 const  { Pool } = require ("pg");
 const  dotenv = require ("dotenv");
+import config from "./config";
 
 
 
 dotenv.config();
-
+console.log(config);
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL
+    connectionString: config
 });
 
-pool.on('connect', () => {
-    console.log("connected to the db");
-});
+pool.connect();
 
 
  /**

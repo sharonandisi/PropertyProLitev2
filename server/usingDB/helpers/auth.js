@@ -42,10 +42,8 @@ const authHelper = {
         * @returns {string} token
         */
 
-        generateToken(id) {
-            const token = jwt.sign({
-                payload: email,
-            },
+        generateToken(payload) {
+            const token = jwt.sign(payload,
                 process.env.SECRET, {expiresIn: '7d'}
             );
             return token;

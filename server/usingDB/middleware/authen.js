@@ -1,9 +1,10 @@
 
 import jwt from 'jsonwebtoken';
 import db from '../db';
+import { config } from 'dotenv';
 
 
-const Auth = {
+config();
     /**
      * Verify Token
      * @param {object} req
@@ -14,24 +15,24 @@ const Auth = {
 
 
 
-async verifyToken(req, res, next) {
+const verifyToken= async (req, res, next) => {
 
         try {
             const headerToken = req.headers.authorization;
-            // if (!token) {
-            //     return res.status(400).json({
-            //         status: 400,
-            //         error: "Token is not provided"
-            //     });
-            // }
+            if (!headerToken) {
+                return res.status(400).json({
+                    status: 400,
+                    error: "Token is not provided"
+                });
+            }
             const token = headerToken.split(' ')[1];
-            jwt.verify(token, process.env.SECRET, (err, data) => {
+            
+            await jwt.verify(token, process.env.SECRET, (err, data) => {
                 if (err) return res.status(403).json({
                     status: 400,
                     error: err.message
                 })
-                res.locals.user = data.email
-                console.log(res.locals);
+                res.locals.user = data
                 
             });
             next();
@@ -45,6 +46,6 @@ async verifyToken(req, res, next) {
    
    
 }
-}
 
-export default Auth;
+
+export default verifyToken;

@@ -9,11 +9,11 @@ import Validation from "../middleware/propertyValidation";
 const router = express.Router();
 
 
-router.post('/property', Validation.validatePostproperty, auth.verifyToken ,Property.create);
+router.post('/property', Validation.validatePostproperty, auth ,Property.create);
 router.get('/properties', Property.getAll);
 router.get('/properties/:id',  Property.getOne);
-router.patch('/property/:id', Property.update);
+router.patch('/property/:id', auth, Property.update);
 router.get('/property', Property.getType);
-router.delete('/property/:id', Property.delete);
+router.delete('/property/:id', auth, Property.delete);
 
 export default router;
