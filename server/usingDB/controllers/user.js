@@ -26,22 +26,20 @@ const User = {
                  error:"Please enter a valid email address"
              })
          }
-         const hashPassword = authHelper.hashPassword(req.body.password);
+         const password = authHelper.hashPassword(req.body.password);
 
          const createQuery = `INSERT INTO
          users(email, first_name, last_name, password, phoneNumber, address)
          VALUES($1, $2, $3, $4, $5, $6)
          returning *`;
-
          const values = [
              req.body.email,
              req.body.first_name,
              req.body.last_name,
-             req.body.password,
+             password,
              req.body.phoneNumber,
              req.body.address
             ];
-
         try {
             const { rows } = await db.query(createQuery, values);
             const token = authHelper.generateToken(rows[0].id);
@@ -49,15 +47,15 @@ const User = {
                 status: 201,
                 message:"Successfully signed up",
                 token,
-                data: (
-                    rows[0].email,
-                    rows[0].first_name,
-                    rows[0].last_name,
-                    rows[0].phoneNumber,
-                    rows[0].address
-                )
+                data: ({
+                    email:rows[0].email,
+                    first_name:rows[0].first_name,
+                    last_name: rows[0].last_name,
+                    phoneNumber: rows[0].phoneNumber,
+                    address:rows[0].address,
+                }),
 
-            });
+            })
         } catch(error) {
             if(error.routine === '_bt_check_unique'){
                 return res.status(400).json({
@@ -71,7 +69,62 @@ const User = {
 
             })
         }
-     }
+     },
+
+
+    /**
+    * Login
+    * @param {object} req
+    * @param {object} res
+    * @returns {object} user object
+    */
+
+    async login(req, res) {
+        if (!req.body.email || !req.body.password) {
+            return res.status(400).json({ 
+                status: 400,
+                error: 'Some values are missing'
+             });
+        }
+        if (!authHelper.isValidEmail(req.body.email)) {
+            return res.status(400).json({
+                status: 400, 
+                error: 'Please enter a valid email address' 
+            });
+        }
+        const text = 'SELECT * FROM users WHERE email = $1';
+        try {
+            const { rows } = await db.query(text, [req.body.email]);
+            if (!rows[0]) {
+                return res.status(400).json({ 
+                    status: 400,
+                    error: 'The credentials you provided are incorrect' 
+                });
+            }
+            if (!authHelper.comparePassword(rows[0].password, req.body.password)) {
+                return res.status(400).json({
+                    status: 400, 
+                    error: 'The credentials you provided is incorrect' 
+                });
+            }
+            const token = authHelper.generateToken(rows[0].id);
+            return res.status(200).json({ 
+                status: 200,
+                message: "Successfully logged in",
+                token,
+                data: ({
+                    email:rows[0].email
+                })
+             })
+        } catch (error) {
+            return res.status(400).json({
+                status: 400,
+                error: "Bad request"
+            })
+        }
+    }
+
+
 }
 
 export default User;
