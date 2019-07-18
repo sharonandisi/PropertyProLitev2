@@ -91,7 +91,7 @@ const Property = {
                 return res.status(404).json({
                     status: 404, 
                     error: 'property not found' });
-            } console.log(err)
+            } 
             return res.status(200).json({
                 status: 200,
                 message: "Success",
@@ -123,7 +123,7 @@ const Property = {
                 return res.status(404).json({ 
                     status: 404,
                     error : 'property not found' });
-            } console.log(err)
+            } 
             return res.status(200).json({
                 status: 200,
                 message: "Success",
@@ -148,20 +148,24 @@ const Property = {
 
     async update(req, res) {
         const updateOneQuery = `UPDATE properties
-      SET price=$1 WHERE id=$2 AND owner = $3`;
+      SET price=$1 WHERE id=$2 AND owner = $3 RETURNING *`;
         try {
             const values = [
                 req.body.price,
                 req.params.id,
                 res.locals.user.email
             ];
-            console.log(values)
             const { rows } = await db.query(updateOneQuery, values);
-            console.log(rows)
-            return res.status(200).json({
+            if(!rows) {
+                return res.status(404).json({
+                    status: 404,
+                    error: 'property not found'
+                });
+                
+            } return res.status(200).json({
                 status: 200,
                 message: "successfully updated",
-                data: response.rows[0]
+                data: rows[0]
             });
         } catch (err) {
             return res.status(400).json({
@@ -173,25 +177,25 @@ const Property = {
     
     async updateStatus(req, res) {
         const updateOneQuery = `UPDATE properties
-      SET status=$1 WHERE id=$2 AND owner = $3`;
+      SET status=$1 WHERE id=$2 AND owner = $3 RETURNING *`;
         try {
             const values = [
-                status = "Sold",
+                req.params.status = "status",
                 req.params.id,
                 res.locals.user.email
             ];
-            console.log(values)
             const { rows } = await db.query(updateOneQuery, values);
-            if(rows[0]){
-            return res.status(200).json({
+            if (!rows) {
+                return res.status(404).json({
+                    status: 404,
+                    error: 'property not found'
+                });
+
+            } return res.status(200).json({
                 status: 200,
-                message: "successfully marked as sold",
-                data: response.rows[0]
-            })
-            }return res.status(404).json({
-                status: 404,
-                error: "property not found",
-            })
+                data: rows[0],
+                message: "successfully updated",
+            });
         } catch (err) {
             return res.status(400).json({
                 status: 400,
@@ -199,7 +203,6 @@ const Property = {
             });
         }
     },
-
 
     /**
     * Delete A Property
