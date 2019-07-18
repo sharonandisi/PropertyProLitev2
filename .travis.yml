@@ -20,8 +20,11 @@ before_script:
 
 env:
   global:
-    - DATABASE_TEST=postgres@localhost/test_db
-    - SECRET_KEY=supersecret
+    - DATABASE_TEST=postgres://postgres@localhost/test_db
+    - SECRET_KEY=chair and table
+    - CLOUD_NAME= dqa4bqv5r
+    - API_KEY= 255291596917225
+    - API_SECRET= dghxJZ55BxK92k3mblIz-vsPGok
 
 script:
   - npm run test 
