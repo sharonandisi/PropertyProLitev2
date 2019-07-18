@@ -5,7 +5,7 @@ import config from "./config";
 
 
 dotenv.config();
-console.log(config);
+
 
 const pool = new Pool({
     connectionString: config
