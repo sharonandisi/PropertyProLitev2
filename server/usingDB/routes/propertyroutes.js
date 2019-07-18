@@ -3,11 +3,7 @@ import Property from "../controllers/Property";
 import auth from "../middleware/authen";
 import Validation from "../middleware/propertyValidation";
 
-
-
-
 const router = express.Router();
-
 
 router.post('/property', Validation.validatePostproperty, auth ,Property.create);
 router.get('/properties', Property.getAll);

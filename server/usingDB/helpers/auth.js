@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 
 
 const authHelper = {
+
     /**
      * Hash Password Method
      * @param {string} password
@@ -13,7 +14,6 @@ const authHelper = {
      hashPassword(password) {
          return bcrypt.hashSync(password, bcrypt.genSaltSync(8));
      },
-
 
      /**
       * comparePassword
@@ -49,5 +49,4 @@ const authHelper = {
             return token;
         }
 }
-
 export default authHelper;

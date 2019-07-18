@@ -1,9 +1,6 @@
 import  db from "../db";
 import authHelper from "../helpers/auth";
 
-
-
-
 const User = {
 
     /**
@@ -71,7 +68,6 @@ const User = {
         }
      },
 
-
     /**
     * Login
     * @param {object} req
@@ -123,8 +119,6 @@ const User = {
             })
         }
     }
-
-
 }
 
 export default User;

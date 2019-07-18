@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import db from '../db';
 import { config } from 'dotenv';
 
-
 config();
+
     /**
      * Verify Token
      * @param {object} req
@@ -12,8 +12,6 @@ config();
      * @param {object} next
      * @retuns {object|void} response object
      */
-
-
 
 const verifyToken= async (req, res, next) => {
 
@@ -41,11 +39,7 @@ const verifyToken= async (req, res, next) => {
                 status: 400,
                 error: "Bad request"
             });
-        }
-
-   
-   
+        }   
 }
-
 
 export default verifyToken;

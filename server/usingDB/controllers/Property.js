@@ -3,9 +3,6 @@ import db from "../db";
 import "@babel/polyfill";
 import Auth from "../middleware/authen";
 
-
-
-
 const Property = {
     /**
      * Create A property
@@ -13,7 +10,6 @@ const Property = {
      * @param {object} res
      * @returns {object} property object
      */
-
 
      async create(req, res) {
         try {
@@ -39,7 +35,6 @@ const Property = {
                  status: 201,
                  message: "Property was successfully posted",
                  data: rows[0]
-
              });
          } catch(error) {
              return res.status(400).json({
@@ -49,14 +44,12 @@ const Property = {
          }
      },
 
-
     /**
      * Get All properties
      * @param {object} req 
      * @param {object} res 
      * @returns {object} properties array
      */
-
 
     async getAll(req, res) {
         const findAllQuery = 'SELECT * FROM properties';
@@ -82,7 +75,6 @@ const Property = {
      * @returns {object} property object
      */
 
-
     async getOne(req, res) {
         const text = 'SELECT * FROM properties WHERE id = $1';
         try {
@@ -105,15 +97,12 @@ const Property = {
         }
     },
 
-
     /**
     * Get A Specific Property Type
     * @param {object} req
     * @param {object} res
     * @returns {object} property object
     */
-
-
 
     async getType(req, res) {
         const text = 'SELECT * FROM properties WHERE type = $1 ';
@@ -137,14 +126,12 @@ const Property = {
         }
     },
 
-
     /**
     * Update A Property
     * @param {object} req 
     * @param {object} res 
     * @returns {object} updated property
     */
-
 
     async update(req, res) {
         const updateOneQuery = `UPDATE properties
@@ -169,7 +156,6 @@ const Property = {
         }
     },
 
-
     /**
     * Delete A Property
     * @param {object} req 
@@ -177,12 +163,10 @@ const Property = {
     * @returns {void} return status code 204 
     */
 
-
     async delete(req, res) {
         const deleteQuery = 'DELETE FROM properties WHERE id=$1 AND owner =$2';
         try {
             const { rows }  = await db.query(deleteQuery, [req.params.id, req.owner]);
-            console.log(rows)
             if(rows.length === 0){
             return res.status(200).json({ 
                 status: 200,
@@ -195,10 +179,7 @@ const Property = {
                 error: 'Bad request'
             });
         }
-    }
-
-
-    
+    }   
 };
 
 export default Property;

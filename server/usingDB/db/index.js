@@ -2,12 +2,12 @@
 import {Pool} from "pg";
 import "dotenv/config";
 
-
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
 export default {
+
     /**
      * DB Query
      * @param {object} req
@@ -15,7 +15,6 @@ export default {
      * @returns {object} object
      */
 
-    
      query(text, params){
          return new Promise((resolve, reject) => {
             pool.query(text, params)
@@ -23,7 +22,6 @@ export default {
                 resolve(res);
             })
             .catch((err) => {
-                console.log(err)
                 reject(err);
             });
                         

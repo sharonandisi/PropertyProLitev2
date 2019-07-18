@@ -2,10 +2,7 @@ const  { Pool } = require ("pg");
 const  dotenv = require ("dotenv");
 import config from "./config";
 
-
-
 dotenv.config();
-
 
 const pool = new Pool({
     connectionString: config
@@ -13,10 +10,10 @@ const pool = new Pool({
 
 pool.connect();
 
-
  /**
   * Create User Table
   */
+
 const createUserTable = () => {
     const queryText =
     `CREATE TABLE IF NOT EXISTS
@@ -43,7 +40,6 @@ const createUserTable = () => {
 /**
  * Create Tables
  */
-
 
 const createTables = () => {
     const queryText =
@@ -76,7 +72,6 @@ const createTables = () => {
   * DropTables
   */
 
-
 const dropTables = () => {
     const queryText = 'DROP TABLE IF EXISTS properties CASCADE';
     pool.query(queryText)
@@ -87,7 +82,6 @@ const dropTables = () => {
             pool.end();
         });
 };
-
 
 const dropUserTables = () => {
     const queryText = 'DROP TABLE IF EXISTS users CASCADE';

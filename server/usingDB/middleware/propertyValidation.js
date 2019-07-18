@@ -1,7 +1,5 @@
 import Joi from '@hapi/joi';
 import response from '../helpers/responses';
-
-
 class Validation {
     static async validatePostproperty(req, res, next) {
         try {
