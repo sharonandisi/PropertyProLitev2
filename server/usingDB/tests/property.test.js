@@ -144,6 +144,7 @@ describe('/GET specific property type', () => {
             .get('/api/v1/property?type=dog')
             .end((err, res) => {
                 res.should.have.status(404);
+                if (err) return done();
                 done();
             });
     });
