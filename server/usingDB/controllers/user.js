@@ -23,7 +23,7 @@ const User = {
          if (!authHelper.isValidEmail(req.body.email)) {
              return res.status(400).json({
                  status: 400,
-                 error:"Please enter a valid email address"
+                 error:"Email is a required field and must be valid"
              })
          }
          const password = authHelper.hashPassword(req.body.password);
@@ -98,7 +98,7 @@ const User = {
             if (!rows[0]) {
                 return res.status(400).json({ 
                     status: 400,
-                    error: 'The credentials you provided are incorrect' 
+                    error: 'Email is a required field and must be valid' 
                 });
             }
             if (!authHelper.comparePassword(rows[0].password, req.body.password)) {
@@ -108,8 +108,8 @@ const User = {
                 });
             }
             const token = authHelper.generateToken({ id: rows[0].id, email:rows[0].email});
-            return res.status(200).json({ 
-                status: 200,
+            return res.status(201).json({ 
+                status: 201,
                 message: "Successfully logged in",
                 token,
                 data: ({

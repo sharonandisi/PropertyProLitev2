@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     return res.status(200).send({"message":"YaY! first endpoint works"});
 });
 
-app.listen(port);
+app.listen(port, () => console.log(`Server started on port ${port}`));
 
 
 export default app;

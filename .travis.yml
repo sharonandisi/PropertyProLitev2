@@ -18,6 +18,6 @@ before_script:
   - psql -c "CREATE USER sharon WITH PASSWORD 'sharon';" -U postgres
 
 script:
-  - npm run test 
+  - npm run start-test 
 
 after_success: npm run coveralls

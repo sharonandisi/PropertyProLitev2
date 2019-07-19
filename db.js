@@ -1,14 +1,18 @@
-const  { Pool } = require ("pg");
-const  dotenv = require ("dotenv");
+import  { Pool } from "pg";
+import dotenv from "dotenv";
 import config from "./config";
 
 
 
 dotenv.config();
 
+const env = process.env.NODE_ENV
 
+const databaseUrl = env === 'test' ? process.env.DATABASE_URL_TEST : process.env.DATABASE_URL
+
+console.log(config)
 const pool = new Pool({
-    connectionString: config
+    connectionString: databaseUrl
 });
 
 pool.connect();
@@ -121,7 +125,7 @@ pool.on('remove', () => {
     process.exit(0);
 });
 
-module.exports = {
+export {
     createTables,
     createUserTable,
     createAllTables,
@@ -130,5 +134,5 @@ module.exports = {
     dropAllTables
 };
 
-require ("make-runnable");
+require ('make-runnable');
 
