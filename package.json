@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test nyc mocha ./server/usingDB/tests/*.js --require @babel/register --timeout 10000000 --exit",
     "build": "babel server -d build",
-    "start": "NODE_ENV=production npm run build && node build/server.js",
+    "start": "npm run create && NODE_ENV=production  npm run build && node build/server.js",
     "start-dev": "NODE_ENV=development nodemon --exec babel-node server/server.js",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
