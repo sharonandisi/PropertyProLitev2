@@ -59,7 +59,7 @@ const User = {
         } catch(error) {
             if(error.routine === '_bt_check_unique'){
                 return res.status(400).json({
-                    status: 400,
+                    status: 409,
                     error: "Email already in use"
                 })
             }

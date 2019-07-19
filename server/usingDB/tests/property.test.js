@@ -11,7 +11,7 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('/POST property', () => {
-    it("should successfully post a proeprty", (done) =>{
+    it("should successfully post a property", (done) =>{
         chai.request(app)
         .post('/api/v1/property')
         .send({
@@ -132,7 +132,6 @@ describe('/GET specific property', () => {
             .get('/api/v1/property/111')
             .end((err, res) => {
                 res.should.have.status(404);
-                if (err) return done();
                 done();
             });
     });
@@ -145,7 +144,6 @@ describe('/GET specific property type', () => {
             .get('/api/v1/property?type=dog')
             .end((err, res) => {
                 res.should.have.status(404);
-                if (err) return done();
                 done();
             });
     });
@@ -160,6 +158,7 @@ describe('/GET all properties', () => {
             .get('/api/v1/properties')
             .end((err, res) => {
                 res.should.have.status(200);
+                if (err) return done();
                 done();
             });
     });

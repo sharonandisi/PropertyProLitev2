@@ -23,9 +23,17 @@ describe('User', () => {
         it("should successfully sign up a user", (done) => {
             chai.request(app)
                 .post('/api/v1/auth/signup')
-                .send(user)
+                .send({
+                    email: 'andisi@gmail.com',
+                    first_name: 'sharon',
+                    last_name: 'andisi',
+                    password: 'wer123456',
+                    phoneNumber: '0702317926',
+                    address: 'iowra'
+                })
                 .end((err, res) => {
-                    res.should.have.status(400);
+                    res.should.have.status(201);
+                    if(err) return done();
                     done();
                 });
         });
