@@ -20,16 +20,14 @@ describe('User', () => {
             phoneNumber: '0702317926',
             address: 'iowra'
         };
-        it('should successfully register a user', (done) =>{
+        it("should successfully sign up a user", (done) => {
             chai.request(app)
-            .post('/api/v1/auth/signup')
-            .send(user)
-            .end((err, res) => {
-                res.should.have.status(201);
-                res.body.message.should.equals("Successfully signed up");
-                if (err) return done();
-                done();
-            });
+                .post('/api/v1/auth/signup')
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    done();
+                });
         });
 
         it("should not sign up a user missing an email", (done) => {
