@@ -98,7 +98,7 @@ const User = {
             if (!rows[0]) {
                 return res.status(400).json({ 
                     status: 400,
-                    error: 'The credentials you provided are incorrect' 
+                    error: 'Email is a required field and must be valid' 
                 });
             }
             if (!authHelper.comparePassword(rows[0].password, req.body.password)) {

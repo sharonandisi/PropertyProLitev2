@@ -1,16 +1,22 @@
 import chai , { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server';
-import { createTables } from "../../../db"
 
-const should = chai.should();
-chai.use(chaiHttp);
+
+
+
 chai.should();
+chai.use(chaiHttp);
+
+
 
 describe('User', () => {
-    before('Create tables', async () => {
-        await createTables();
-    })
+
+    before('Create tables', (done) => {
+        createUserTable();
+        done();
+    });
+    
     describe('POST /', () => {
         const user = {
             email: 'andisi@gmail.com',
@@ -147,6 +153,93 @@ describe('User', () => {
                 });
         });
 
-        
- })
+        it("should not sign up an already registered user", (done) => {
+            chai.request(app)
+                .send({
+                    email: 'andisi@gmail.com',
+                    first_name: 'sharon',
+                    last_name: 'andisi',
+                    password: 'wer123456',
+                    phoneNumber: '0702317926',
+                    address: 'iowra'
+
+                })
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    expect(res.body.error).equals("Email already in use");
+                    if (err) return done()
+                })
+        })
+
+        it("should not sign up a user missing all fields", (done) => {
+            chai.request(app)
+            .send({
+                email: "",
+                first_name: "",
+                last_name: "",
+                password: "",
+                phoneNumber: "",
+                address: ""
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+                expect(res.body.error).equals("All fields are required");
+                if (err) return done()
+            })
+        })
+    })
+
+
+    describe ('/POST signin', () => {
+
+        it("should successfully sign up a user", (done) => {
+            chai.request(app)
+                .post('/api/v1/auth/signin')
+                .send({
+                    email: "andisi@gmail.com",
+                    password: "wer123456",
+                })
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.message.should.equals("Successfully logged in")
+                    if (err) return done();
+                    done();
+                });
+
+        });
+
+        it("should not sign in a user missing the email", (done) => {
+            chai.request(app)
+                .post('/api/v1/auth/signin')
+                .send({
+                    email: "",
+                    password: "wer1234568",
+                })
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    expect(res.body.error).equals("Email is a required field and must be valid");
+                    if (err) return done();
+                    done();
+
+                });
+
+        });
+
+        it("should not sign in a user missing a password", (done) => {
+            chai.request(app)
+            .post('/api/v1/auth/signin')
+            .send({
+                email: "andisi@gmail.com",
+                password: ""
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+                expect(res.body.error).equals("credentials you provided is incorrect");
+                if (err) return done();
+            });
+        })
+
+
+    });
+   
 })
