@@ -10,9 +10,9 @@
     "start-dev": "NODE_ENV=development nodemon --exec babel-node server/server.js",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build",
-    "create": "./db.js createAllTables",
-    "drop": "./db.js dropAllTables",
-    "start-test": "NODE_ENV=test npm run create && npm run drop && nyc mocha ./server/usingDB/tests/*.js --require @babel/register --timeout 10000000 --exit"
+    "create": "babel-node ./db.js createAllTables",
+    "drop": "babel-node ./db.js dropAllTables",
+    "start-test": "NODE_ENV=test npm run drop && npm run create && nyc mocha ./server/usingDB/tests/*.js --require @babel/register --timeout 10000000 --exit"
   },
   "repository": {
     "type": "git",

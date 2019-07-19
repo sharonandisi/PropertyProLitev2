@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server';
-import { createAllTables } from '../../../db';
+
 
 const { expect } = chai;
 chai.should();

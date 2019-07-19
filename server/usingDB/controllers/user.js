@@ -108,8 +108,8 @@ const User = {
                 });
             }
             const token = authHelper.generateToken({ id: rows[0].id, email:rows[0].email});
-            return res.status(200).json({ 
-                status: 200,
+            return res.status(201).json({ 
+                status: 201,
                 message: "Successfully logged in",
                 token,
                 data: ({
