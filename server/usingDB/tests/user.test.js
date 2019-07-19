@@ -12,10 +12,6 @@ chai.use(chaiHttp);
 
 describe('User', () => {
 
-    before('Create tables', (done) => {
-        createUserTable();
-        done();
-    });
     
     describe('POST /', () => {
         const user = {
