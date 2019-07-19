@@ -1,6 +1,9 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../server';
+import jwt from 'jsonwebtoken';
+
+const{JWT_SECRET} = process.env;
 
 
 const { expect } = chai;
@@ -142,6 +145,7 @@ describe('/GET specific property type', () => {
             .get('/api/v1/property?type=dog')
             .end((err, res) => {
                 res.should.have.status(404);
+                if (err) return done();
                 done();
             });
     });
@@ -151,7 +155,7 @@ describe('/GET specific property type', () => {
 });
 
 describe('/GET all properties', () => {
-    it('should return an error message if no adverts exist', (done) => {
+    it('should return all properties', (done) => {
         chai.request(app)
             .get('/api/v1/properties')
             .end((err, res) => {
