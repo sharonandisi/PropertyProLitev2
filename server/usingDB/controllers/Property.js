@@ -68,9 +68,9 @@ const Property = {
                 data: rows
             });
         } catch (error) {
-            return res.status(400).json({
-                status: 400,
-                error: "Bad request"
+            return res.status(404).json({
+                status: 404,
+                error: "No properties found"
             });
         }
     },
